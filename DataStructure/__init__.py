@@ -1,3 +1,3 @@
-from ProjectArgs import ProjectArgs
+from .ProjectArgs import ProjectArgs
 
 __all__ = ['ProjectArgs']
