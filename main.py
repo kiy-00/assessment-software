@@ -5,8 +5,6 @@ from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout,
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QFont, QIcon
 
-from utils import ProjectArgsReader
-from DataStructure import ProjectArgs
 
 class MainWindow(QMainWindow):
     def __init__(self):
