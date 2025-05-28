@@ -144,20 +144,15 @@ class MainWindow(QMainWindow):
     
     def create_indicator_management_page(self):
         """创建指标管理页面"""
-        page = QWidget()
-        layout = QVBoxLayout(page)
-        layout.setContentsMargins(20, 20, 20, 20)
+        from indicator_management_page import IndicatorManagementPage
         
-        title = QLabel("指标管理")
-        title.setStyleSheet("QLabel { font-size: 18px; font-weight: bold; color: #2c3e50; }")
-        layout.addWidget(title)
+        page = IndicatorManagementPage()
         
-        content = QLabel("这里将显示指标管理的具体内容...")
-        content.setStyleSheet("QLabel { font-size: 12px; color: #666; margin-top: 20px; }")
-        layout.addWidget(content)
+        # 连接数据更新信号
+        page.data_updated.connect(self.on_indicator_data_updated)
         
-        layout.addStretch()
         self.stacked_widget.addWidget(page)
+        return page
     
     def create_comprehensive_evaluation_page(self):
         """创建综合评估页面"""
@@ -242,6 +237,10 @@ class MainWindow(QMainWindow):
     def on_project_data_updated(self):
         """项目数据更新处理"""
         print("项目参数数据已更新")
+    
+    def on_indicator_data_updated(self):
+        """指标数据更新处理"""
+        print("指标管理数据已更新")
 
 def main():
     app = QApplication(sys.argv)
