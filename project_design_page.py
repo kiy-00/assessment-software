@@ -92,6 +92,11 @@ class ProjectDesignPage(QWidget):
         layout.addWidget(QLabel("项目人数（人）"), 1, 0)
         self.project_people_edit = QLineEdit()
         layout.addWidget(self.project_people_edit, 1, 1)
+
+        # 评估方案数
+        layout.addWidget(QLabel("评估方案数（个）"), 2, 0)
+        self.project_people_edit = QLineEdit()
+        layout.addWidget(self.project_people_edit, 2, 1)
         
         parent_layout.addWidget(group)
     
@@ -141,8 +146,9 @@ class ProjectDesignPage(QWidget):
         self.nominal_discount_rate_edit = QLineEdit()
         layout.addWidget(self.nominal_discount_rate_edit, 0, 1)
         
-        # 预期通货膨胀率
-        layout.addWidget(QLabel("预期通货膨胀率（%）"), 1, 0)
+        # 预期通货膨胀率 - 改为checkbox + 输入框形式
+        self.inflation_rate_checkbox = QCheckBox("预期通货膨胀率（%）")
+        layout.addWidget(self.inflation_rate_checkbox, 1, 0)
         self.inflation_rate_edit = QLineEdit()
         layout.addWidget(self.inflation_rate_edit, 1, 1)
         
@@ -156,7 +162,7 @@ class ProjectDesignPage(QWidget):
         
         # 添加说明文字
         note_label = QLabel("※在输入框中输入价格的24h分时数据，使用半角逗号\",\"隔开")
-        note_label.setStyleSheet("QLabel { color: #666; font-size: 9px; }")
+        note_label.setStyleSheet("QLabel { color: #666; font-size: 20px; }")
         layout.addWidget(note_label)
         
         grid_layout = QGridLayout()
@@ -228,11 +234,13 @@ class ProjectDesignPage(QWidget):
         self.pv_checkbox = QCheckBox("光伏机组(PV)")
         left_layout.addWidget(self.pv_checkbox)
         
-        self.electrolyzer_checkbox = QCheckBox("电解槽(EL)")
-        left_layout.addWidget(self.electrolyzer_checkbox)
+        # 电解槽(EL) - 只显示文本，不带复选框
+        electrolyzer_label = QLabel("    电解槽(EL)")
+        left_layout.addWidget(electrolyzer_label)
         
-        self.hydrogen_storage_checkbox = QCheckBox("氢储能系统(HES)")
-        left_layout.addWidget(self.hydrogen_storage_checkbox)
+        # 氢储能系统(HES) - 只显示文本，不带复选框
+        hydrogen_storage_label = QLabel("    氢储能系统(HES)")
+        left_layout.addWidget(hydrogen_storage_label)
         
         self.fuel_cell_checkbox = QCheckBox("氢燃料电池(HFC)")
         self.fuel_cell_checkbox.setChecked(True)
@@ -257,6 +265,7 @@ class ProjectDesignPage(QWidget):
         
         # 氧负荷组
         oxygen_group = QGroupBox("氧负荷")
+        oxygen_group.setStyleSheet("QGroupBox { border: 1px solid gray; margin: 5px; padding-top: 15px; }")
         oxygen_layout = QVBoxLayout(oxygen_group)
         self.oxygen_sell_checkbox = QCheckBox("售氧")
         oxygen_layout.addWidget(self.oxygen_sell_checkbox)
@@ -264,7 +273,9 @@ class ProjectDesignPage(QWidget):
         
         # 氢负荷组
         hydrogen_group = QGroupBox("氢负荷")
+        hydrogen_group.setStyleSheet("QGroupBox { border: 1px solid gray; margin: 5px; padding-top: 15px; }")
         hydrogen_layout = QGridLayout(hydrogen_group)
+        
         self.ammonia_checkbox = QCheckBox("合成氨")
         self.ammonia_checkbox.setChecked(True)
         hydrogen_layout.addWidget(self.ammonia_checkbox, 0, 0)
@@ -288,6 +299,7 @@ class ProjectDesignPage(QWidget):
         
         # 电负荷组
         power_group = QGroupBox("电负荷")
+        power_group.setStyleSheet("QGroupBox { border: 1px solid gray; margin: 5px; padding-top: 15px; }")
         power_layout = QVBoxLayout(power_group)
         self.internal_power_checkbox = QCheckBox("系统内用电单元")
         self.internal_power_checkbox.setChecked(True)
@@ -297,7 +309,7 @@ class ProjectDesignPage(QWidget):
         main_layout.addWidget(left_frame)
         main_layout.addWidget(right_frame)
         parent_layout.addWidget(group)
-    
+        
     def create_equipment_parameters_group(self, parent_layout):
         """创建设备参数组"""
         # WT参数
@@ -327,7 +339,7 @@ class ProjectDesignPage(QWidget):
         # 风力发电单元出力
         layout.addWidget(QLabel("风力发电单元出力（kW）"), 0, 0)
         list_input_btn = QPushButton("在列表中输入各方案数据")
-        list_input_btn.setMaximumWidth(150)
+        list_input_btn.setMaximumWidth(250)
         layout.addWidget(list_input_btn, 0, 1)
         
         # 设备使用寿命
@@ -358,7 +370,7 @@ class ProjectDesignPage(QWidget):
         
         # 说明文字和总装机
         note_label = QLabel("※在输入框中输入各方案WT容量，使用半角逗号\",\"隔开")
-        note_label.setStyleSheet("QLabel { color: #666; font-size: 9px; }")
+        note_label.setStyleSheet("QLabel { color: #666; font-size: 20px; }")
         layout.addWidget(note_label, 6, 0, 1, 2)
         
         layout.addWidget(QLabel("风力发电总装机（kW）"), 7, 0)
@@ -377,7 +389,7 @@ class ProjectDesignPage(QWidget):
         # 光伏机组出力
         layout.addWidget(QLabel("光伏机组出力（kW）"), 0, 0)
         list_input_btn = QPushButton("在列表中输入各方案数据")
-        list_input_btn.setMaximumWidth(150)
+        list_input_btn.setMaximumWidth(250)
         layout.addWidget(list_input_btn, 0, 1)
         
         # 设备使用寿命
@@ -408,7 +420,7 @@ class ProjectDesignPage(QWidget):
         
         # 说明文字和总装机
         note_label = QLabel("※在输入框中输入各方案PV容量，使用半角逗号\",\"隔开")
-        note_label.setStyleSheet("QLabel { color: #666; font-size: 9px; }")
+        note_label.setStyleSheet("QLabel { color: #666; font-size: 20px; }")
         layout.addWidget(note_label, 6, 0, 1, 2)
         
         layout.addWidget(QLabel("光伏机组总装机（kW）"), 7, 0)
@@ -426,7 +438,7 @@ class ProjectDesignPage(QWidget):
         # ESS的充放功率
         layout.addWidget(QLabel("ESS的充放功率（kW）"), 0, 0)
         list_input_btn = QPushButton("在列表中输入各方案数据")
-        list_input_btn.setMaximumWidth(150)
+        list_input_btn.setMaximumWidth(250)
         layout.addWidget(list_input_btn, 0, 1)
         
         # 蓄电池充放电效率
@@ -457,10 +469,10 @@ class ProjectDesignPage(QWidget):
         
         # 说明文字和总容量
         note_label = QLabel("※在输入框中输入各方案ESS容量，使用半角逗号\",\"隔开")
-        note_label.setStyleSheet("QLabel { color: #666; font-size: 9px; }")
+        note_label.setStyleSheet("QLabel { color: #666; font-size: 20px; }")
         layout.addWidget(note_label, 6, 0, 1, 2)
         
-        layout.addWidget(QLabel("电储能装置总容量（kW）"), 7, 0)
+        layout.addWidget(QLabel("蓄电池配置容量（kW）"), 7, 0)
         self.ess_total_capacity_edit = QLineEdit()
         layout.addWidget(self.ess_total_capacity_edit, 7, 1)
         
@@ -475,7 +487,7 @@ class ProjectDesignPage(QWidget):
         # 氢储能装置加氢放氢
         layout.addWidget(QLabel("氢储能装置加氢放氢（kg）"), 0, 0)
         list_input_btn = QPushButton("在列表中输入各方案数据")
-        list_input_btn.setMaximumWidth(150)
+        list_input_btn.setMaximumWidth(250)
         layout.addWidget(list_input_btn, 0, 1)
         
         # 设备使用寿命
@@ -499,11 +511,11 @@ class ProjectDesignPage(QWidget):
         layout.addWidget(self.hes_residual_value_edit, 4, 1)
         
         # 说明文字和配置容量
-        note_label = QLabel("※在输入框中输入各方案EL容量，使用半角逗号\",\"隔开")
-        note_label.setStyleSheet("QLabel { color: #666; font-size: 9px; }")
+        note_label = QLabel("※在输入框中输入各方案HES容量，使用半角逗号\",\"隔开")
+        note_label.setStyleSheet("QLabel { color: #666; font-size: 20px; }")
         layout.addWidget(note_label, 6, 0, 1, 2)
         
-        layout.addWidget(QLabel("电解槽配置容量（kW）"), 7, 0)
+        layout.addWidget(QLabel("氢储能装置配置容量（kW）"), 7, 0)
         self.el_total_capacity_edit = QLineEdit()
         layout.addWidget(self.el_total_capacity_edit, 7, 1)
         
@@ -543,7 +555,7 @@ class ProjectDesignPage(QWidget):
         
         # 说明文字和配置容量
         note_label = QLabel("※在输入框中输入各方案HFC容量，使用半角逗号\",\"隔开")
-        note_label.setStyleSheet("QLabel { color: #666; font-size: 9px; }")
+        note_label.setStyleSheet("QLabel { color: #666; font-size: 20px; }")
         layout.addWidget(note_label, 5, 0, 1, 2)
         
         layout.addWidget(QLabel("燃料电池配置容量（kW）"), 6, 0)
@@ -561,13 +573,13 @@ class ProjectDesignPage(QWidget):
         # 系统与外部氢源的交互质量
         layout.addWidget(QLabel("系统与外部氢源的交互质量（kg）"), 0, 0)
         hydrogen_input_btn = QPushButton("在列表中输入各方案数据")
-        hydrogen_input_btn.setMaximumWidth(150)
+        hydrogen_input_btn.setMaximumWidth(250)
         layout.addWidget(hydrogen_input_btn, 0, 1)
         
         # 系统与外部电网的交互功率
         layout.addWidget(QLabel("系统与外部电网的交互功率（kW）"), 1, 0)
         power_input_btn = QPushButton("在列表中输入各方案数据")
-        power_input_btn.setMaximumWidth(150)
+        power_input_btn.setMaximumWidth(250)
         layout.addWidget(power_input_btn, 1, 1)
         
         parent_layout.addWidget(group)
@@ -586,8 +598,9 @@ class ProjectDesignPage(QWidget):
         
         oxygen_layout.addWidget(QLabel("销售氧气的质量（kg）"), 1, 0)
         oxygen_sell_btn = QPushButton("在列表中输入各方案数据")
-        oxygen_sell_btn.setMaximumWidth(150)
+        oxygen_sell_btn.setMaximumWidth(250)
         oxygen_layout.addWidget(oxygen_sell_btn, 1, 1)
+        
         
         layout.addWidget(oxygen_frame)
         
@@ -607,7 +620,7 @@ class ProjectDesignPage(QWidget):
             row = i + 1
             hydrogen_layout.addWidget(QLabel(item), row, 0)
             btn = QPushButton("在列表中输入各方案数据")
-            btn.setMaximumWidth(150)
+            btn.setMaximumWidth(250)
             hydrogen_layout.addWidget(btn, row, 1)
         
         layout.addWidget(hydrogen_frame)
@@ -620,7 +633,7 @@ class ProjectDesignPage(QWidget):
         
         power_layout.addWidget(QLabel("电负荷所消耗的功率（kW）"), 1, 0)
         power_consumption_btn = QPushButton("在列表中输入各方案数据")
-        power_consumption_btn.setMaximumWidth(150)
+        power_consumption_btn.setMaximumWidth(250)
         power_layout.addWidget(power_consumption_btn, 1, 1)
         
         layout.addWidget(power_frame)
@@ -641,7 +654,7 @@ class ProjectDesignPage(QWidget):
                 border: none;
                 border-radius: 5px;
                 padding: 8px 16px;
-                font-size: 12px;
+                font-size: 20px;
                 font-weight: bold;
             }
             QPushButton:hover {
@@ -670,6 +683,7 @@ class ProjectDesignPage(QWidget):
         self.pv_checkbox.toggled.connect(self.on_system_topology_changed)
         self.fuel_cell_checkbox.toggled.connect(self.on_system_topology_changed)
         self.battery_storage_checkbox.toggled.connect(self.on_system_topology_changed)
+        self.inflation_rate_checkbox.toggled.connect(self.data_updated.emit)
         
     def on_system_topology_changed(self):
         """系统拓扑发生变化时的处理"""
@@ -735,6 +749,7 @@ class ProjectDesignPage(QWidget):
             'steel_making': self.steel_making_checkbox.isChecked(),
             'other_hydrogen': self.other_hydrogen_checkbox.isChecked(),
             'internal_power': self.internal_power_checkbox.isChecked(),
+            'inflation_rate_enabled': self.inflation_rate_checkbox.isChecked(),
             # 设备参数
             'wt_lifetime': self.wt_lifetime_edit.text(),
             'wt_investment_cost': self.wt_investment_cost_edit.text(),
@@ -831,6 +846,7 @@ class ProjectDesignPage(QWidget):
         # 财务分析参数
         self.nominal_discount_rate_edit.setText(data.get('nominal_discount_rate', ''))
         self.inflation_rate_edit.setText(data.get('inflation_rate', ''))
+        self.inflation_rate_checkbox.setChecked(data.get('inflation_rate_enabled', False))
         
         # 价格参数
         self.oxygen_price_edit.setText(data.get('oxygen_price', ''))
@@ -929,39 +945,50 @@ class ProjectDesignPage(QWidget):
         group.setFont(QFont("微软雅黑", 10, QFont.Bold))
         layout = QGridLayout(group)
         
+        
         # 设备使用寿命
-        layout.addWidget(QLabel("设备使用寿命（年）"), 0, 0)
+        layout.addWidget(QLabel("设备使用寿命（年）"), 1, 0)
         self.el_lifetime_edit = QLineEdit()
-        layout.addWidget(self.el_lifetime_edit, 0, 1)
+        layout.addWidget(self.el_lifetime_edit, 1, 1)
         
         # 能量转化系数
-        layout.addWidget(QLabel("能量转化系数（%）"), 1, 0)
+        layout.addWidget(QLabel("能量转化系数（%）"), 2, 0)
         self.el_efficiency_edit = QLineEdit()
-        layout.addWidget(self.el_efficiency_edit, 1, 1)
+        self.el_efficiency_edit.setText("39.4")  # 设置默认值
+        layout.addWidget(self.el_efficiency_edit, 2, 1)
         
         # 电力电子接口装置成本
         self.el_power_electronics_checkbox = QCheckBox("电力电子接口装置成本设备成本的比例（%）")
-        layout.addWidget(self.el_power_electronics_checkbox, 2, 0)
+        layout.addWidget(self.el_power_electronics_checkbox, 3, 0)
         self.el_power_electronics_edit = QLineEdit()
-        layout.addWidget(self.el_power_electronics_edit, 2, 1)
+        self.el_power_electronics_edit.setText("5")  # 设置默认值
+        layout.addWidget(self.el_power_electronics_edit, 3, 1)
         
         # 单位容量投资成本
-        layout.addWidget(QLabel("单位容量投资成本（万元）"), 3, 0)
+        layout.addWidget(QLabel("单位容量投资成本（万元）"), 4, 0)
         self.el_investment_cost_edit = QLineEdit()
-        layout.addWidget(self.el_investment_cost_edit, 3, 1)
+        layout.addWidget(self.el_investment_cost_edit, 4, 1)
         
         # 单位容量维护成本
-        layout.addWidget(QLabel("单位容量维护成本（万元）"), 4, 0)
+        layout.addWidget(QLabel("单位容量维护成本（万元）"), 5, 0)
         self.el_maintenance_cost_edit = QLineEdit()
-        layout.addWidget(self.el_maintenance_cost_edit, 4, 1)
+        layout.addWidget(self.el_maintenance_cost_edit, 5, 1)
         
         # 单位容量残值系数
-        layout.addWidget(QLabel("单位容量残值系数（%）"), 5, 0)
+        layout.addWidget(QLabel("单位容量残值系数（%）"), 6, 0)
         self.el_residual_value_edit = QLineEdit()
-        layout.addWidget(self.el_residual_value_edit, 5, 1)
+        layout.addWidget(self.el_residual_value_edit, 6, 1)
         
         # 说明文字和配置容量
-        note_label = QLabel("※在输入框中输入各方案HES容量，使用半角逗号\",\"隔开")
+        note_label = QLabel("※在输入框中输入各方案EL容量，使用半角逗号\",\"隔开")
+        note_label.setStyleSheet("QLabel { color: #666; font-size: 20px; }")
+        layout.addWidget(note_label, 7, 0, 1, 2)
+        
+        layout.addWidget(QLabel("电解槽配置容量（kW）"), 8, 0)
+        self.el_total_capacity_edit = QLineEdit()
+        layout.addWidget(self.el_total_capacity_edit, 8, 1)
+        
+        parent_layout.addWidget(group)
 
 
 # 测试代码

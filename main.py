@@ -94,7 +94,7 @@ class MainWindow(QMainWindow):
         # 导航标题
         nav_title = QLabel("功能导航")
         nav_title.setAlignment(Qt.AlignCenter)
-        nav_title.setStyleSheet("QLabel { font-weight: bold; font-size: 14px; color: #333; }")
+        nav_title.setStyleSheet("QLabel { font-weight: bold; font-size: 20px; color: #333; }")
         nav_layout.addWidget(nav_title)
         
         # 导航按钮
@@ -186,7 +186,7 @@ class MainWindow(QMainWindow):
             border: none;
             border-radius: 5px;
             padding: 8px 16px;
-            font-size: 12px;
+            font-size: 20px;
             font-weight: bold;
         }
         QPushButton:hover {
@@ -210,7 +210,7 @@ class MainWindow(QMainWindow):
             border: 1px solid #bdc3c7;
             border-radius: 5px;
             padding: 10px;
-            font-size: 12px;
+            font-size: 20px;
             text-align: left;
         }
         QPushButton:hover {
