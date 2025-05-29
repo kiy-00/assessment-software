@@ -95,8 +95,8 @@ class ProjectDesignPage(QWidget):
 
         # 评估方案数
         layout.addWidget(QLabel("评估方案数（个）"), 2, 0)
-        self.project_people_edit = QLineEdit()
-        layout.addWidget(self.project_people_edit, 2, 1)
+        self.project_scheme_edit = QLineEdit()  # 修正：使用不同的变量名
+        layout.addWidget(self.project_scheme_edit, 2, 1)
         
         parent_layout.addWidget(group)
     
@@ -516,8 +516,8 @@ class ProjectDesignPage(QWidget):
         layout.addWidget(note_label, 6, 0, 1, 2)
         
         layout.addWidget(QLabel("氢储能装置配置容量（kW）"), 7, 0)
-        self.el_total_capacity_edit = QLineEdit()
-        layout.addWidget(self.el_total_capacity_edit, 7, 1)
+        self.hes_total_capacity_edit = QLineEdit()  # 修正：使用正确的变量名
+        layout.addWidget(self.hes_total_capacity_edit, 7, 1)
         
         parent_layout.addWidget(group)
     
@@ -734,8 +734,8 @@ class ProjectDesignPage(QWidget):
             # 系统拓扑选择
             'wind_turbine': self.wind_turbine_checkbox.isChecked(),
             'pv': self.pv_checkbox.isChecked(),
-            'electrolyzer': self.electrolyzer_checkbox.isChecked(),
-            'hydrogen_storage': self.hydrogen_storage_checkbox.isChecked(),
+            'electrolyzer': True,  # 电解槽是必选项
+            'hydrogen_storage': True,  # 氢储能系统是必选项
             'fuel_cell': self.fuel_cell_checkbox.isChecked(),
             'battery_storage': self.battery_storage_checkbox.isChecked(),
             'external_grid': self.external_grid_checkbox.isChecked(),
@@ -862,8 +862,7 @@ class ProjectDesignPage(QWidget):
         # 系统拓扑
         self.wind_turbine_checkbox.setChecked(data.get('wind_turbine', False))
         self.pv_checkbox.setChecked(data.get('pv', False))
-        self.electrolyzer_checkbox.setChecked(data.get('electrolyzer', False))
-        self.hydrogen_storage_checkbox.setChecked(data.get('hydrogen_storage', False))
+        # 电解槽和氢储能系统是必选的，不需要设置
         self.fuel_cell_checkbox.setChecked(data.get('fuel_cell', False))
         self.battery_storage_checkbox.setChecked(data.get('battery_storage', False))
         self.external_grid_checkbox.setChecked(data.get('external_grid', False))
@@ -1005,6 +1004,3 @@ if __name__ == "__main__":
     window.show()
     
     sys.exit(app.exec_())  # 运行应用程序
-       
-    
-    
