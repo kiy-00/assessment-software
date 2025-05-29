@@ -346,6 +346,7 @@ class DataManager:
         # 更新财务分析参数
         if "财务分析参数" in user_input_data:
             user_input_data["财务分析参数"]["名义贴现率"]["数值"] = self.parse_number(project_data.get('nominal_discount_rate'))
+            user_input_data["财务分析参数"]["预期通货膨胀率"]["选择状态"] = project_data.get('inflation_rate_enabled', True)
             if project_data.get('inflation_rate_enabled'):
                 user_input_data["财务分析参数"]["预期通货膨胀率"]["数值"] = self.parse_number(project_data.get('inflation_rate'))
         
@@ -358,6 +359,13 @@ class DataManager:
         
         # 更新成本参数
         if "成本参数" in user_input_data:
+            # 更新成本参数的选择状态
+            if "场地购置费用" in user_input_data["成本参数"]:
+                user_input_data["成本参数"]["场地购置费用"]["选择状态"] = project_data.get('site_cost_enabled', True)
+            if "工程施工费用" in user_input_data["成本参数"]:
+                user_input_data["成本参数"]["工程施工费用"]["选择状态"] = project_data.get('construction_cost_enabled', True)
+            
+            # 更新成本参数的数值
             user_input_data["成本参数"]["场地购置费用"]["数值"] = self.parse_number(project_data.get('site_cost'))
             user_input_data["成本参数"]["工程施工费用"]["数值"] = self.parse_number(project_data.get('construction_cost'))
             user_input_data["成本参数"]["年人员费用"]["数值"] = self.parse_number(project_data.get('personnel_cost'))
@@ -377,6 +385,10 @@ class DataManager:
             user_input_data["WT"]["单位容量维护成本"]["数值"] = self.parse_number(project_data.get('wt_maintenance_cost'))
             user_input_data["WT"]["单位容量残值系数"]["数值"] = self.parse_number(project_data.get('wt_residual_value'))
             user_input_data["WT"]["风力发电总装机"]["数值"] = self.parse_capacity_list(project_data.get('wt_total_capacity'))
+            # 更新电力电子接口装置的选择状态和数值
+            if "电力电子接口装置成本设备成本的比例" in user_input_data["WT"]:
+                user_input_data["WT"]["电力电子接口装置成本设备成本的比例"]["选择状态"] = project_data.get('wt_power_electronics_enabled', True)
+                user_input_data["WT"]["电力电子接口装置成本设备成本的比例"]["数值"] = self.parse_number(project_data.get('wt_power_electronics_ratio'))
         
         # PV参数
         if "PV" in user_input_data and project_data.get('pv'):
@@ -385,6 +397,10 @@ class DataManager:
             user_input_data["PV"]["单位容量维护成本"]["数值"] = self.parse_number(project_data.get('pv_maintenance_cost'))
             user_input_data["PV"]["单位容量残值系数"]["数值"] = self.parse_number(project_data.get('pv_residual_value'))
             user_input_data["PV"]["光伏机组总装机"]["数值"] = self.parse_capacity_list(project_data.get('pv_total_capacity'))
+            # 更新电力电子接口装置的选择状态和数值
+            if "电力电子接口装置成本设备成本的比例" in user_input_data["PV"]:
+                user_input_data["PV"]["电力电子接口装置成本设备成本的比例"]["选择状态"] = project_data.get('pv_power_electronics_enabled', True)
+                user_input_data["PV"]["电力电子接口装置成本设备成本的比例"]["数值"] = self.parse_number(project_data.get('pv_power_electronics_ratio'))
         
         # EL参数
         if "EL" in user_input_data and project_data.get('electrolyzer'):
@@ -393,6 +409,10 @@ class DataManager:
             user_input_data["EL"]["单位容量维护成本"]["数值"] = self.parse_number(project_data.get('el_maintenance_cost'))
             user_input_data["EL"]["单位容量残值系数"]["数值"] = self.parse_number(project_data.get('el_residual_value'))
             user_input_data["EL"]["电解槽配置容量"]["数值"] = self.parse_capacity_list(project_data.get('el_capacity'))
+            # 更新电力电子接口装置的选择状态和数值
+            if "电力电子接口装置成本设备成本的比例" in user_input_data["EL"]:
+                user_input_data["EL"]["电力电子接口装置成本设备成本的比例"]["选择状态"] = project_data.get('el_power_electronics_enabled', True)
+                user_input_data["EL"]["电力电子接口装置成本设备成本的比例"]["数值"] = self.parse_number(project_data.get('el_power_electronics_ratio'))
         
         # HES参数
         if "HES" in user_input_data and project_data.get('hydrogen_storage'):
@@ -409,6 +429,10 @@ class DataManager:
             user_input_data["HFC"]["单位容量维护成本"]["数值"] = self.parse_number(project_data.get('hfc_maintenance_cost'))
             user_input_data["HFC"]["单位容量残值系数"]["数值"] = self.parse_number(project_data.get('hfc_residual_value'))
             user_input_data["HFC"]["燃料电池配置容量"]["数值"] = self.parse_capacity_list(project_data.get('hfc_capacity'))
+            # 更新电力电子接口装置的选择状态和数值
+            if "电力电子接口装置成本设备成本的比例" in user_input_data["HFC"]:
+                user_input_data["HFC"]["电力电子接口装置成本设备成本的比例"]["选择状态"] = project_data.get('hfc_power_electronics_enabled', True)
+                user_input_data["HFC"]["电力电子接口装置成本设备成本的比例"]["数值"] = self.parse_number(project_data.get('hfc_power_electronics_ratio'))
         
         # ESS参数
         if "ESS" in user_input_data and project_data.get('battery_storage'):
@@ -416,7 +440,11 @@ class DataManager:
             user_input_data["ESS"]["单位容量投资成本"]["数值"] = self.parse_number(project_data.get('ess_investment_cost'))
             user_input_data["ESS"]["蓄电池单位运行成本"]["数值"] = self.parse_number(project_data.get('ess_operation_cost'))
             user_input_data["ESS"]["蓄电池配置容量"]["数值"] = self.parse_capacity_list(project_data.get('ess_capacity'))
-    
+            # 更新电力电子接口装置的选择状态和数值
+            if "电力电子接口装置成本设备成本的比例" in user_input_data["ESS"]:
+                user_input_data["ESS"]["电力电子接口装置成本设备成本的比例"]["选择状态"] = project_data.get('ess_power_electronics_enabled', True)
+                user_input_data["ESS"]["电力电子接口装置成本设备成本的比例"]["数值"] = self.parse_number(project_data.get('ess_power_electronics_ratio'))
+
     def update_equipment_selection(self, user_input_data, project_data):
         """更新设备选择状态"""
         # 更新设备选择状态
@@ -490,7 +518,7 @@ class DataManager:
         # 默认返回24个0.0
         default_list = [0.0] * 24
         
-        if value is None:
+        if value is None or value == "":
             return default_list
         
         if isinstance(value, list):
@@ -508,21 +536,31 @@ class DataManager:
         
         try:
             if isinstance(value, str):
-                # 尝试解析为逗号分隔的字符串
-                values = value.split(',')
-                result = []
-                
-                for v in values:
-                    try:
-                        result.append(float(v.strip()))
-                    except (ValueError, TypeError):
-                        result.append(0.0)
-                
-                # 调整长度为24
-                if len(result) < 24:
-                    last_value = result[-1] if result else 0.0
-                    result.extend([last_value] * (24 - len(result)))
-                return result[:24]  # 截断为24个值
+                value = value.strip()
+                if value == "":
+                    return default_list
+            
+                # 检查是否包含逗号分隔符
+                if ',' in value:
+                    # 尝试解析为逗号分隔的字符串
+                    values = value.split(',')
+                    result = []
+                    
+                    for v in values:
+                        try:
+                            result.append(float(v.strip()))
+                        except (ValueError, TypeError):
+                            result.append(0.0)
+                    
+                    # 调整长度为24
+                    if len(result) < 24:
+                        last_value = result[-1] if result else 0.0
+                        result.extend([last_value] * (24 - len(result)))
+                    return result[:24]  # 截断为24个值
+                else:
+                    # 如果是单个数值，复制24次
+                    single_value = float(value)
+                    return [single_value] * 24
             else:
                 # 如果是单个数值，复制24次
                 single_value = float(value)
@@ -532,15 +570,35 @@ class DataManager:
     
     def parse_capacity_list(self, value):
         """解析容量列表，根据方案数量返回对应数组"""
-        if value is None:
+        if value is None or value == "":
             return None
         
         if isinstance(value, list):
             return [float(v) if v is not None else 0.0 for v in value]
         
         try:
-            # 如果是单个数值，返回包含这个值的列表
-            return [float(value)]
+            if isinstance(value, str):
+                value = value.strip()
+                if value == "":
+                    return None
+                
+                # 检查是否包含逗号分隔符
+                if ',' in value:
+                    # 解析逗号分隔的字符串
+                    values = value.split(',')
+                    result = []
+                    for v in values:
+                        try:
+                            result.append(float(v.strip()))
+                        except (ValueError, TypeError):
+                            result.append(0.0)
+                    return result
+                else:
+                    # 单个数值
+                    return [float(value)]
+            else:
+                # 如果是单个数值，返回包含这个值的列表
+                return [float(value)]
         except (ValueError, TypeError):
             return None
     
@@ -588,8 +646,8 @@ class DataManager:
             ui_data['project_name'] = basic_info.get("项目名称", {}).get("数值", "")
             ui_data['project_life'] = str(basic_info.get("项目生命周期", {}).get("数值", "")) if basic_info.get("项目生命周期", {}).get("数值") else ""
             ui_data['project_people'] = str(basic_info.get("项目人数", {}).get("数值", "")) if basic_info.get("项目人数", {}).get("数值") else ""
-            ui_data['scheme_count'] = str(basic_info.get("方案个数", {}).get("数值", "")) if basic_info.get("方案个数", {}).get("数值") else ""
-        
+            ui_data['scheme_count'] = str(basic_info.get("方案个数", {}).get("数值", "")) if basic_info.get("方案个数", {}).get("数值") else ""  # 修正：使用正确的字段名
+    
         # 财税与融资参数
         if "财税与融资参数" in self.project_data:
             tax_finance = self.project_data["财税与融资参数"]
@@ -605,7 +663,7 @@ class DataManager:
             ui_data['nominal_discount_rate'] = str(financial_analysis.get("名义贴现率", {}).get("数值", "")) if financial_analysis.get("名义贴现率", {}).get("数值") else ""
             inflation_rate_value = financial_analysis.get("预期通货膨胀率", {}).get("数值")
             ui_data['inflation_rate'] = str(inflation_rate_value) if inflation_rate_value is not None else ""
-            ui_data['inflation_rate_enabled'] = inflation_rate_value is not None
+            ui_data['inflation_rate_enabled'] = financial_analysis.get("预期通货膨胀率", {}).get("选择状态", True)
         
         # 价格参数
         if "价格参数" in self.project_data:
@@ -621,6 +679,9 @@ class DataManager:
             ui_data['site_cost'] = str(cost_params.get("场地购置费用", {}).get("数值", "")) if cost_params.get("场地购置费用", {}).get("数值") else ""
             ui_data['construction_cost'] = str(cost_params.get("工程施工费用", {}).get("数值", "")) if cost_params.get("工程施工费用", {}).get("数值") else ""
             ui_data['personnel_cost'] = str(cost_params.get("年人员费用", {}).get("数值", "")) if cost_params.get("年人员费用", {}).get("数值") else ""
+            # 成本参数选择状态
+            ui_data['site_cost_enabled'] = cost_params.get("场地购置费用", {}).get("选择状态", True)
+            ui_data['construction_cost_enabled'] = cost_params.get("工程施工费用", {}).get("选择状态", True)
         
         # 设备选择状态
         equipment_mapping = {
@@ -656,6 +717,9 @@ class DataManager:
             ui_data['wt_maintenance_cost'] = str(wt_data.get("单位容量维护成本", {}).get("数值", "")) if wt_data.get("单位容量维护成本", {}).get("数值") else ""
             ui_data['wt_residual_value'] = str(wt_data.get("单位容量残值系数", {}).get("数值", "")) if wt_data.get("单位容量残值系数", {}).get("数值") else ""
             ui_data['wt_total_capacity'] = self.format_capacity_list(wt_data.get("风力发电总装机", {}).get("数值"))
+            # 添加电力电子接口装置选择状态和数值
+            ui_data['wt_power_electronics_enabled'] = wt_data.get("电力电子接口装置成本设备成本的比例", {}).get("选择状态", False)
+            ui_data['wt_power_electronics_ratio'] = str(wt_data.get("电力电子接口装置成本设备成本的比例", {}).get("数值", "")) if wt_data.get("电力电子接口装置成本设备成本的比例", {}).get("数值") else ""
         
         # PV参数
         if "PV" in self.project_data:
@@ -665,6 +729,9 @@ class DataManager:
             ui_data['pv_maintenance_cost'] = str(pv_data.get("单位容量维护成本", {}).get("数值", "")) if pv_data.get("单位容量维护成本", {}).get("数值") else ""
             ui_data['pv_residual_value'] = str(pv_data.get("单位容量残值系数", {}).get("数值", "")) if pv_data.get("单位容量残值系数", {}).get("数值") else ""
             ui_data['pv_total_capacity'] = self.format_capacity_list(pv_data.get("光伏机组总装机", {}).get("数值"))
+            # 添加电力电子接口装置选择状态和数值
+            ui_data['pv_power_electronics_enabled'] = pv_data.get("电力电子接口装置成本设备成本的比例", {}).get("选择状态", False)
+            ui_data['pv_power_electronics_ratio'] = str(pv_data.get("电力电子接口装置成本设备成本的比例", {}).get("数值", "")) if pv_data.get("电力电子接口装置成本设备成本的比例", {}).get("数值") else ""
         
         # EL参数
         if "EL" in self.project_data:
@@ -674,7 +741,10 @@ class DataManager:
             ui_data['el_investment_cost'] = str(el_data.get("单位容量投资成本", {}).get("数值", "")) if el_data.get("单位容量投资成本", {}).get("数值") else ""
             ui_data['el_maintenance_cost'] = str(el_data.get("单位容量维护成本", {}).get("数值", "")) if el_data.get("单位容量维护成本", {}).get("数值") else ""
             ui_data['el_residual_value'] = str(el_data.get("单位容量残值系数", {}).get("数值", "")) if el_data.get("单位容量残值系数", {}).get("数值") else ""
-            ui_data['el_total_capacity'] = self.format_capacity_list(el_data.get("电解槽配置容量", {}).get("数值"))
+            ui_data['el_capacity'] = self.format_capacity_list(el_data.get("电解槽配置容量", {}).get("数值"))  # 修正：使用正确的字段名
+            # 添加电力电子接口装置选择状态和数值
+            ui_data['el_power_electronics_enabled'] = el_data.get("电力电子接口装置成本设备成本的比例", {}).get("选择状态", False)
+            ui_data['el_power_electronics_ratio'] = str(el_data.get("电力电子接口装置成本设备成本的比例", {}).get("数值", "")) if el_data.get("电力电子接口装置成本设备成本的比例", {}).get("数值") else ""
         
         # HES参数
         if "HES" in self.project_data:
@@ -683,8 +753,8 @@ class DataManager:
             ui_data['hes_investment_cost'] = str(hes_data.get("单位容量投资成本", {}).get("数值", "")) if hes_data.get("单位容量投资成本", {}).get("数值") else ""
             ui_data['hes_maintenance_cost'] = str(hes_data.get("单位容量维护成本", {}).get("数值", "")) if hes_data.get("单位容量维护成本", {}).get("数值") else ""
             ui_data['hes_residual_value'] = str(hes_data.get("单位容量残值系数", {}).get("数值", "")) if hes_data.get("单位容量残值系数", {}).get("数值") else ""
-            ui_data['hes_total_capacity'] = self.format_capacity_list(hes_data.get("氢储能装置配置容量", {}).get("数值"))
-        
+            ui_data['hes_capacity'] = self.format_capacity_list(hes_data.get("氢储能装置配置容量", {}).get("数值"))  # 修正：使用正确的字段名
+    
         # HFC参数
         if "HFC" in self.project_data:
             hfc_data = self.project_data["HFC"]
@@ -692,7 +762,10 @@ class DataManager:
             ui_data['hfc_investment_cost'] = str(hfc_data.get("单位容量投资成本", {}).get("数值", "")) if hfc_data.get("单位容量投资成本", {}).get("数值") else ""
             ui_data['hfc_maintenance_cost'] = str(hfc_data.get("单位容量维护成本", {}).get("数值", "")) if hfc_data.get("单位容量维护成本", {}).get("数值") else ""
             ui_data['hfc_residual_value'] = str(hfc_data.get("单位容量残值系数", {}).get("数值", "")) if hfc_data.get("单位容量残值系数", {}).get("数值") else ""
-            ui_data['hfc_total_capacity'] = self.format_capacity_list(hfc_data.get("燃料电池配置容量", {}).get("数值"))
+            ui_data['hfc_capacity'] = self.format_capacity_list(hfc_data.get("燃料电池配置容量", {}).get("数值"))  # 修正：使用正确的字段名
+            # 添加电力电子接口装置选择状态和数值
+            ui_data['hfc_power_electronics_enabled'] = hfc_data.get("电力电子接口装置成本设备成本的比例", {}).get("选择状态", False)
+            ui_data['hfc_power_electronics_ratio'] = str(hfc_data.get("电力电子接口装置成本设备成本的比例", {}).get("数值", "")) if hfc_data.get("电力电子接口装置成本设备成本的比例", {}).get("数值") else ""
         
         # ESS参数
         if "ESS" in self.project_data:
@@ -701,14 +774,19 @@ class DataManager:
             ui_data['ess_operation_cost'] = str(ess_data.get("蓄电池单位运行成本", {}).get("数值", "")) if ess_data.get("蓄电池单位运行成本", {}).get("数值") else ""
             ui_data['ess_lifetime'] = str(ess_data.get("设备使用寿命", {}).get("数值", "")) if ess_data.get("设备使用寿命", {}).get("数值") else ""
             ui_data['ess_investment_cost'] = str(ess_data.get("单位容量投资成本", {}).get("数值", "")) if ess_data.get("单位容量投资成本", {}).get("数值") else ""
-            ui_data['ess_capacity'] = self.format_capacity_list(ess_data.get("蓄电池配置容量", {}).get("数值"))
-    
+            ui_data['ess_capacity'] = self.format_capacity_list(ess_data.get("蓄电池配置容量", {}).get("数值"))  # 修正：使用正确的字段名
+            # 添加电力电子接口装置选择状态和数值
+            ui_data['ess_power_electronics_enabled'] = ess_data.get("电力电子接口装置成本设备成本的比例", {}).get("选择状态", False)
+            ui_data['ess_power_electronics_ratio'] = str(ess_data.get("电力电子接口装置成本设备成本的比例", {}).get("数值", "")) if ess_data.get("电力电子接口装置成本设备成本的比例", {}).get("数值") else ""
+
     def extract_load_params_for_ui(self, ui_data):
         """提取负荷参数用于UI显示"""
         # 氧负荷
         if "氧负荷" in self.project_data and "售氧" in self.project_data["氧负荷"]:
             ui_data['oxygen_load'] = self.project_data["氧负荷"]["售氧"].get("设备选择状态", False)
-        
+        else:
+            ui_data['oxygen_load'] = False  # 默认为False，除非JSON中明确指定为True
+    
         # 氢负荷
         if "氢负荷" in self.project_data:
             hydrogen_loads = self.project_data["氢负荷"]
@@ -718,10 +796,20 @@ class DataManager:
             ui_data['vehicle_hydrogen_load'] = hydrogen_loads.get("燃料电池汽车加氢", {}).get("设备选择状态", False)
             ui_data['steel_load'] = hydrogen_loads.get("钢铁冶炼", {}).get("设备选择状态", False)
             ui_data['other_hydrogen_load'] = hydrogen_loads.get("其他用途售氢", {}).get("设备选择状态", False)
-        
+        else:
+            # 如果JSON中没有氢负荷数据，则所有选项默认为False
+            ui_data['ammonia_load'] = False
+            ui_data['methanol_load'] = False
+            ui_data['oil_refining_load'] = False
+            ui_data['vehicle_hydrogen_load'] = False
+            ui_data['steel_load'] = False
+            ui_data['other_hydrogen_load'] = False
+    
         # 电负荷
         if "电负荷" in self.project_data and "系统内用电单元" in self.project_data["电负荷"]:
             ui_data['electrical_load'] = self.project_data["电负荷"]["系统内用电单元"].get("设备选择状态", False)
+        else:
+            ui_data['electrical_load'] = False  # 默认为False，除非JSON中明确指定为True
     
     def get_indicator_data_for_ui(self):
         """获取用于UI显示的指标数据"""

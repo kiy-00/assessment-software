@@ -67,7 +67,7 @@ class ProjectDesignPage(QWidget):
         project_label.setFont(QFont("微软雅黑", 10, QFont.Bold))
         
         self.project_name_edit = QLineEdit()
-        self.project_name_edit.setText("新项目_f8ba97")
+        self.project_name_edit.setText("项目名称")
         self.project_name_edit.setFixedWidth(200)
         
         header_layout.addWidget(project_label)
@@ -268,6 +268,8 @@ class ProjectDesignPage(QWidget):
         oxygen_group.setStyleSheet("QGroupBox { border: 1px solid gray; margin: 5px; padding-top: 15px; }")
         oxygen_layout = QVBoxLayout(oxygen_group)
         self.oxygen_sell_checkbox = QCheckBox("售氧")
+        # 默认不选中
+        self.oxygen_sell_checkbox.setChecked(False)
         oxygen_layout.addWidget(self.oxygen_sell_checkbox)
         right_layout.addWidget(oxygen_group)
         
@@ -277,7 +279,8 @@ class ProjectDesignPage(QWidget):
         hydrogen_layout = QGridLayout(hydrogen_group)
         
         self.ammonia_checkbox = QCheckBox("合成氨")
-        self.ammonia_checkbox.setChecked(True)
+        # 默认不选中
+        self.ammonia_checkbox.setChecked(False)
         hydrogen_layout.addWidget(self.ammonia_checkbox, 0, 0)
         
         self.fuel_cell_vehicle_checkbox = QCheckBox("燃料电池汽车加氢")
@@ -717,6 +720,7 @@ class ProjectDesignPage(QWidget):
             'project_name': self.project_name_edit.text(),
             'project_life': self.project_life_edit.text(),
             'project_people': self.project_people_edit.text(),
+            'scheme_count': self.project_scheme_edit.text(),  # 修正：使用正确的控件名称
             'vat_rate': self.vat_rate_edit.text(),
             'income_tax_rate': self.income_tax_rate_edit.text(),
             'vat_additional_rate': self.vat_additional_rate_edit.text(),
@@ -731,6 +735,9 @@ class ProjectDesignPage(QWidget):
             'site_cost': self.site_cost_edit.text(),
             'construction_cost': self.construction_cost_edit.text(),
             'personnel_cost': self.personnel_cost_edit.text(),
+            # 成本参数选择状态
+            'site_cost_enabled': self.site_cost_checkbox.isChecked(),
+            'construction_cost_enabled': self.construction_cost_checkbox.isChecked(),
             # 系统拓扑选择
             'wind_turbine': self.wind_turbine_checkbox.isChecked(),
             'pv': self.pv_checkbox.isChecked(),
@@ -741,14 +748,14 @@ class ProjectDesignPage(QWidget):
             'external_grid': self.external_grid_checkbox.isChecked(),
             'external_hydrogen': self.external_hydrogen_checkbox.isChecked(),
             # 消费侧选择
-            'oxygen_sell': self.oxygen_sell_checkbox.isChecked(),
-            'ammonia': self.ammonia_checkbox.isChecked(),
-            'methanol': self.methanol_checkbox.isChecked(),
-            'oil_processing': self.oil_processing_checkbox.isChecked(),
-            'fuel_cell_vehicle': self.fuel_cell_vehicle_checkbox.isChecked(),
-            'steel_making': self.steel_making_checkbox.isChecked(),
-            'other_hydrogen': self.other_hydrogen_checkbox.isChecked(),
-            'internal_power': self.internal_power_checkbox.isChecked(),
+            'oxygen_load': self.oxygen_sell_checkbox.isChecked(),
+            'ammonia_load': self.ammonia_checkbox.isChecked(),
+            'methanol_load': self.methanol_checkbox.isChecked(),
+            'oil_refining_load': self.oil_processing_checkbox.isChecked(),
+            'vehicle_hydrogen_load': self.fuel_cell_vehicle_checkbox.isChecked(),
+            'steel_load': self.steel_making_checkbox.isChecked(),
+            'other_hydrogen_load': self.other_hydrogen_checkbox.isChecked(),
+            'electrical_load': self.internal_power_checkbox.isChecked(),
             'inflation_rate_enabled': self.inflation_rate_checkbox.isChecked(),
             # 设备参数
             'wt_lifetime': self.wt_lifetime_edit.text(),
@@ -765,23 +772,34 @@ class ProjectDesignPage(QWidget):
             'ess_operation_cost': self.ess_operation_cost_edit.text(),
             'ess_lifetime': self.ess_lifetime_edit.text(),
             'ess_investment_cost': self.ess_investment_cost_edit.text(),
-            'ess_total_capacity': self.ess_total_capacity_edit.text(),
+            'ess_capacity': self.ess_total_capacity_edit.text(),  # 修正：使用正确的字段名
             'hes_lifetime': self.hes_lifetime_edit.text(),
             'hes_investment_cost': self.hes_investment_cost_edit.text(),
             'hes_maintenance_cost': self.hes_maintenance_cost_edit.text(),
             'hes_residual_value': self.hes_residual_value_edit.text(),
-            'hes_total_capacity': self.hes_total_capacity_edit.text(),
+            'hes_capacity': self.hes_total_capacity_edit.text(),  # 修正：使用正确的字段名
             'el_lifetime': self.el_lifetime_edit.text(),
             'el_efficiency': self.el_efficiency_edit.text(),
             'el_investment_cost': self.el_investment_cost_edit.text(),
             'el_maintenance_cost': self.el_maintenance_cost_edit.text(),
             'el_residual_value': self.el_residual_value_edit.text(),
-            'el_total_capacity': self.el_total_capacity_edit.text(),
+            'el_capacity': self.el_total_capacity_edit.text(),  # 修正：使用正确的字段名
             'hfc_lifetime': self.hfc_lifetime_edit.text(),
             'hfc_investment_cost': self.hfc_investment_cost_edit.text(),
             'hfc_maintenance_cost': self.hfc_maintenance_cost_edit.text(),
             'hfc_residual_value': self.hfc_residual_value_edit.text(),
-            'hfc_total_capacity': self.hfc_total_capacity_edit.text(),
+            'hfc_capacity': self.hfc_total_capacity_edit.text(),  # 修正：使用正确的字段名
+            # 电力电子接口装置选择状态和数值
+            'wt_power_electronics_enabled': self.wt_power_electronics_checkbox.isChecked(),
+            'wt_power_electronics_ratio': self.wt_power_electronics_edit.text(),
+            'pv_power_electronics_enabled': self.pv_power_electronics_checkbox.isChecked(),
+            'pv_power_electronics_ratio': self.pv_power_electronics_edit.text(),
+            'el_power_electronics_enabled': self.el_power_electronics_checkbox.isChecked(),
+            'el_power_electronics_ratio': self.el_power_electronics_edit.text(),
+            'hfc_power_electronics_enabled': self.hfc_power_electronics_checkbox.isChecked(),
+            'hfc_power_electronics_ratio': self.hfc_power_electronics_edit.text(),
+            'ess_power_electronics_enabled': self.ess_power_electronics_checkbox.isChecked(),
+            'ess_power_electronics_ratio': self.ess_power_electronics_edit.text(),
         }
     
     def validate_data(self, data):
@@ -835,6 +853,7 @@ class ProjectDesignPage(QWidget):
         self.project_name_edit.setText(data.get('project_name', ''))
         self.project_life_edit.setText(data.get('project_life', ''))
         self.project_people_edit.setText(data.get('project_people', ''))
+        self.project_scheme_edit.setText(data.get('scheme_count', ''))  # 修正：使用正确的字段名
         
         # 财税参数
         self.vat_rate_edit.setText(data.get('vat_rate', ''))
@@ -858,6 +877,8 @@ class ProjectDesignPage(QWidget):
         self.site_cost_edit.setText(data.get('site_cost', ''))
         self.construction_cost_edit.setText(data.get('construction_cost', ''))
         self.personnel_cost_edit.setText(data.get('personnel_cost', ''))
+        self.site_cost_checkbox.setChecked(data.get('site_cost_enabled', False))
+        self.construction_cost_checkbox.setChecked(data.get('construction_cost_enabled', False))
         
         # 系统拓扑
         self.wind_turbine_checkbox.setChecked(data.get('wind_turbine', False))
@@ -865,18 +886,18 @@ class ProjectDesignPage(QWidget):
         # 电解槽和氢储能系统是必选的，不需要设置
         self.fuel_cell_checkbox.setChecked(data.get('fuel_cell', False))
         self.battery_storage_checkbox.setChecked(data.get('battery_storage', False))
-        self.external_grid_checkbox.setChecked(data.get('external_grid', False))
-        self.external_hydrogen_checkbox.setChecked(data.get('external_hydrogen', False))
+        self.external_grid_checkbox.setChecked(data.get('external_grid', True))
+        self.external_hydrogen_checkbox.setChecked(data.get('external_hydrogen', True))
         
         # 消费侧
-        self.oxygen_sell_checkbox.setChecked(data.get('oxygen_sell', False))
-        self.ammonia_checkbox.setChecked(data.get('ammonia', False))
-        self.methanol_checkbox.setChecked(data.get('methanol', False))
-        self.oil_processing_checkbox.setChecked(data.get('oil_processing', False))
-        self.fuel_cell_vehicle_checkbox.setChecked(data.get('fuel_cell_vehicle', False))
-        self.steel_making_checkbox.setChecked(data.get('steel_making', False))
-        self.other_hydrogen_checkbox.setChecked(data.get('other_hydrogen', False))
-        self.internal_power_checkbox.setChecked(data.get('internal_power', False))
+        self.oxygen_sell_checkbox.setChecked(data.get('oxygen_load', False))
+        self.ammonia_checkbox.setChecked(data.get('ammonia_load', False))
+        self.methanol_checkbox.setChecked(data.get('methanol_load', False))
+        self.oil_processing_checkbox.setChecked(data.get('oil_refining_load', False))
+        self.fuel_cell_vehicle_checkbox.setChecked(data.get('vehicle_hydrogen_load', False))
+        self.steel_making_checkbox.setChecked(data.get('steel_load', False))
+        self.other_hydrogen_checkbox.setChecked(data.get('other_hydrogen_load', False))
+        self.internal_power_checkbox.setChecked(data.get('electrical_load', False))
         
         # 设备参数
         self.wt_lifetime_edit.setText(data.get('wt_lifetime', ''))
@@ -895,26 +916,42 @@ class ProjectDesignPage(QWidget):
         self.ess_operation_cost_edit.setText(data.get('ess_operation_cost', ''))
         self.ess_lifetime_edit.setText(data.get('ess_lifetime', ''))
         self.ess_investment_cost_edit.setText(data.get('ess_investment_cost', ''))
-        self.ess_total_capacity_edit.setText(data.get('ess_total_capacity', ''))
-        
+        self.ess_total_capacity_edit.setText(data.get('ess_capacity', ''))  # 修正：使用正确的字段名
+    
         self.hes_lifetime_edit.setText(data.get('hes_lifetime', ''))
         self.hes_investment_cost_edit.setText(data.get('hes_investment_cost', ''))
         self.hes_maintenance_cost_edit.setText(data.get('hes_maintenance_cost', ''))
         self.hes_residual_value_edit.setText(data.get('hes_residual_value', ''))
-        self.hes_total_capacity_edit.setText(data.get('hes_total_capacity', ''))
-        
+        self.hes_total_capacity_edit.setText(data.get('hes_capacity', ''))  # 修正：使用正确的字段名
+    
         self.el_lifetime_edit.setText(data.get('el_lifetime', ''))
         self.el_efficiency_edit.setText(data.get('el_efficiency', ''))
         self.el_investment_cost_edit.setText(data.get('el_investment_cost', ''))
         self.el_maintenance_cost_edit.setText(data.get('el_maintenance_cost', ''))
         self.el_residual_value_edit.setText(data.get('el_residual_value', ''))
-        self.el_total_capacity_edit.setText(data.get('el_total_capacity', ''))
+        self.el_total_capacity_edit.setText(data.get('el_capacity', ''))  # 修正：使用正确的字段名
         
         self.hfc_lifetime_edit.setText(data.get('hfc_lifetime', ''))
         self.hfc_investment_cost_edit.setText(data.get('hfc_investment_cost', ''))
         self.hfc_maintenance_cost_edit.setText(data.get('hfc_maintenance_cost', ''))
         self.hfc_residual_value_edit.setText(data.get('hfc_residual_value', ''))
-        self.hfc_total_capacity_edit.setText(data.get('hfc_total_capacity', ''))
+        self.hfc_total_capacity_edit.setText(data.get('hfc_capacity', ''))  # 修正：使用正确的字段名
+
+        # 电力电子接口装置参数
+        self.wt_power_electronics_checkbox.setChecked(data.get('wt_power_electronics_enabled', False))
+        self.wt_power_electronics_edit.setText(data.get('wt_power_electronics_ratio', ''))
+        
+        self.pv_power_electronics_checkbox.setChecked(data.get('pv_power_electronics_enabled', False))
+        self.pv_power_electronics_edit.setText(data.get('pv_power_electronics_ratio', ''))
+        
+        self.el_power_electronics_checkbox.setChecked(data.get('el_power_electronics_enabled', False))
+        self.el_power_electronics_edit.setText(data.get('el_power_electronics_ratio', ''))
+        
+        self.hfc_power_electronics_checkbox.setChecked(data.get('hfc_power_electronics_enabled', False))
+        self.hfc_power_electronics_edit.setText(data.get('hfc_power_electronics_ratio', ''))
+        
+        self.ess_power_electronics_checkbox.setChecked(data.get('ess_power_electronics_enabled', False))
+        self.ess_power_electronics_edit.setText(data.get('ess_power_electronics_ratio', ''))
     
     def reset_form(self):
         """重置表单"""
