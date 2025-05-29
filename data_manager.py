@@ -128,7 +128,7 @@ class DataManager:
                 "项目名称": {"单位": "-", "类型": "General", "选择状态": True, "数值": None, "备注": ""},
                 "项目生命周期": {"单位": "年", "类型": "General", "选择状态": True, "数值": None, "备注": ""},
                 "项目人数": {"单位": "人", "类型": "General", "选择状态": True, "数值": None, "备注": ""},
-                "方案人数": {"单位": "个", "类型": "General", "选择状态": True, "数值": None, "备注": ""}
+                "方案个数": {"单位": "个", "类型": "General", "选择状态": True, "数值": None, "备注": ""}
             },
             "财税与融资参数": {
                 "增值税率": {"单位": "%", "类型": "General", "选择状态": True, "数值": 13, "备注": ""},
@@ -144,7 +144,7 @@ class DataManager:
             "价格参数": {
                 "氧气的销售价格": {"单位": "元/kg", "类型": "General", "选择状态": True, "数值": [0.5]*24, "备注": ""},
                 "电能销售价格": {"单位": "元/kW·h", "类型": "General", "选择状态": True, "数值": [0.3]*24, "备注": ""},
-                "电能的购买价格": {"单位": "元/kW·h", "类型": "General", "选择状态": True, "数值": None, "备注": ""},
+                "电能的购买价格": {"单位": "元/kW·h", "类型": "General", "选择状态": True, "数值": [0.3]*24, "备注": ""},
                 "单位质量氢能的价格": {"单位": "元/kg", "类型": "General", "选择状态": True, "数值": [33.4]*24, "备注": ""}
             },
             "成本参数": {
@@ -178,7 +178,7 @@ class DataManager:
                 "单位容量投资成本": {"单位": "元/kW", "类型": "General", "选择状态": True, "数值": None, "备注": ""},
                 "单位容量维护成本": {"单位": "元/kW", "类型": "General", "选择状态": True, "数值": None, "备注": ""},
                 "单位容量残值系数": {"单位": "%", "类型": "General", "选择状态": True, "数值": 5, "备注": ""},
-                "设备配置容量": {"单位": "kW", "类型": "Particular", "选择状态": True, "数值": None, "备注": ""}
+                "电解槽配置容量": {"单位": "kW", "类型": "Particular", "选择状态": True, "数值": None, "备注": ""}
             },
             "HES": {
                 "设备选择状态": True,
@@ -186,7 +186,7 @@ class DataManager:
                 "单位容量投资成本": {"单位": "元/kW", "类型": "General", "选择状态": True, "数值": None, "备注": ""},
                 "单位容量维护成本": {"单位": "元/kW", "类型": "General", "选择状态": True, "数值": None, "备注": ""},
                 "单位容量残值系数": {"单位": "%", "类型": "General", "选择状态": True, "数值": 5, "备注": ""},
-                "设备配置容量": {"单位": "kW", "类型": "Particular", "选择状态": True, "数值": None, "备注": ""}
+                "氢储能装置配置容量": {"单位": "kW", "类型": "Particular", "选择状态": True, "数值": None, "备注": ""}
             },
             "HFC": {
                 "设备选择状态": True,
@@ -195,7 +195,7 @@ class DataManager:
                 "单位容量投资成本": {"单位": "元/kW", "类型": "General", "选择状态": True, "数值": None, "备注": ""},
                 "单位容量维护成本": {"单位": "元/kW", "类型": "General", "选择状态": True, "数值": None, "备注": ""},
                 "单位容量残值系数": {"单位": "%", "类型": "General", "选择状态": True, "数值": 5, "备注": ""},
-                "设备配置容量": {"单位": "kW", "类型": "Particular", "选择状态": True, "数值": None, "备注": ""}
+                "燃料电池配置容量": {"单位": "kW", "类型": "Particular", "选择状态": True, "数值": None, "备注": ""}
             },
             "ESS": {
                 "设备选择状态": True,
@@ -204,11 +204,13 @@ class DataManager:
                 "设备使用寿命": {"单位": "年", "类型": "General", "选择状态": True, "数值": None, "备注": ""},
                 "电力电子接口装置成本设备成本的比例": {"单位": "%", "类型": "General", "选择状态": True, "数值": 5, "备注": ""},
                 "单位容量投资成本": {"单位": "元/kW", "类型": "General", "选择状态": True, "数值": None, "备注": ""},
-                "设备配置容量": {"单位": "kW", "类型": "Particular", "选择状态": True, "数值": None, "备注": ""}
+                "蓄电池配置容量": {"单位": "kW", "类型": "Particular", "选择状态": True, "数值": None, "备注": ""}
             },
             "外部电网": {"设备选择状态": True},
             "外部氢网": {"设备选择状态": True},
-            "氧负荷": {"设备选择状态": True},
+            "氧负荷": {
+                "售氧": {"设备选择状态": True}
+            },
             "氢负荷": {
                 "合成氨": {"设备选择状态": True},
                 "合成甲醇": {"设备选择状态": True},
@@ -217,7 +219,9 @@ class DataManager:
                 "钢铁冶炼": {"设备选择状态": True},
                 "其他用途售氢": {"设备选择状态": True}
             },
-            "电负荷": {"设备选择状态": True}
+            "电负荷": {
+                "系统内用电单元": {"设备选择状态": True}
+            }
         }
     
     def get_default_indicator_system_data(self):
@@ -329,6 +333,7 @@ class DataManager:
             user_input_data["项目基本信息"]["项目名称"]["数值"] = project_data.get('project_name')
             user_input_data["项目基本信息"]["项目生命周期"]["数值"] = self.parse_number(project_data.get('project_life'))
             user_input_data["项目基本信息"]["项目人数"]["数值"] = self.parse_number(project_data.get('project_people'))
+            user_input_data["项目基本信息"]["方案个数"]["数值"] = self.parse_number(project_data.get('scheme_count'))
         
         # 更新财税与融资参数
         if "财税与融资参数" in user_input_data:
@@ -373,107 +378,174 @@ class DataManager:
             user_input_data["WT"]["单位容量残值系数"]["数值"] = self.parse_number(project_data.get('wt_residual_value'))
             user_input_data["WT"]["风力发电总装机"]["数值"] = self.parse_capacity_list(project_data.get('wt_total_capacity'))
         
-        # 类似地更新其他设备参数...
+        # PV参数
+        if "PV" in user_input_data and project_data.get('pv'):
+            user_input_data["PV"]["设备使用寿命"]["数值"] = self.parse_number(project_data.get('pv_lifetime'))
+            user_input_data["PV"]["单位容量投资成本"]["数值"] = self.parse_number(project_data.get('pv_investment_cost'))
+            user_input_data["PV"]["单位容量维护成本"]["数值"] = self.parse_number(project_data.get('pv_maintenance_cost'))
+            user_input_data["PV"]["单位容量残值系数"]["数值"] = self.parse_number(project_data.get('pv_residual_value'))
+            user_input_data["PV"]["光伏机组总装机"]["数值"] = self.parse_capacity_list(project_data.get('pv_total_capacity'))
+        
+        # EL参数
+        if "EL" in user_input_data and project_data.get('electrolyzer'):
+            user_input_data["EL"]["设备使用寿命"]["数值"] = self.parse_number(project_data.get('el_lifetime'))
+            user_input_data["EL"]["单位容量投资成本"]["数值"] = self.parse_number(project_data.get('el_investment_cost'))
+            user_input_data["EL"]["单位容量维护成本"]["数值"] = self.parse_number(project_data.get('el_maintenance_cost'))
+            user_input_data["EL"]["单位容量残值系数"]["数值"] = self.parse_number(project_data.get('el_residual_value'))
+            user_input_data["EL"]["电解槽配置容量"]["数值"] = self.parse_capacity_list(project_data.get('el_capacity'))
+        
+        # HES参数
+        if "HES" in user_input_data and project_data.get('hydrogen_storage'):
+            user_input_data["HES"]["设备使用寿命"]["数值"] = self.parse_number(project_data.get('hes_lifetime'))
+            user_input_data["HES"]["单位容量投资成本"]["数值"] = self.parse_number(project_data.get('hes_investment_cost'))
+            user_input_data["HES"]["单位容量维护成本"]["数值"] = self.parse_number(project_data.get('hes_maintenance_cost'))
+            user_input_data["HES"]["单位容量残值系数"]["数值"] = self.parse_number(project_data.get('hes_residual_value'))
+            user_input_data["HES"]["氢储能装置配置容量"]["数值"] = self.parse_capacity_list(project_data.get('hes_capacity'))
+        
+        # HFC参数
+        if "HFC" in user_input_data and project_data.get('fuel_cell'):
+            user_input_data["HFC"]["设备使用寿命"]["数值"] = self.parse_number(project_data.get('hfc_lifetime'))
+            user_input_data["HFC"]["单位容量投资成本"]["数值"] = self.parse_number(project_data.get('hfc_investment_cost'))
+            user_input_data["HFC"]["单位容量维护成本"]["数值"] = self.parse_number(project_data.get('hfc_maintenance_cost'))
+            user_input_data["HFC"]["单位容量残值系数"]["数值"] = self.parse_number(project_data.get('hfc_residual_value'))
+            user_input_data["HFC"]["燃料电池配置容量"]["数值"] = self.parse_capacity_list(project_data.get('hfc_capacity'))
+        
+        # ESS参数
+        if "ESS" in user_input_data and project_data.get('battery_storage'):
+            user_input_data["ESS"]["设备使用寿命"]["数值"] = self.parse_number(project_data.get('ess_lifetime'))
+            user_input_data["ESS"]["单位容量投资成本"]["数值"] = self.parse_number(project_data.get('ess_investment_cost'))
+            user_input_data["ESS"]["蓄电池单位运行成本"]["数值"] = self.parse_number(project_data.get('ess_operation_cost'))
+            user_input_data["ESS"]["蓄电池配置容量"]["数值"] = self.parse_capacity_list(project_data.get('ess_capacity'))
     
     def update_equipment_selection(self, user_input_data, project_data):
         """更新设备选择状态"""
+        # 更新设备选择状态
         if "WT" in user_input_data:
             user_input_data["WT"]["设备选择状态"] = project_data.get('wind_turbine', False)
         if "PV" in user_input_data:
             user_input_data["PV"]["设备选择状态"] = project_data.get('pv', False)
+        if "EL" in user_input_data:
+            user_input_data["EL"]["设备选择状态"] = project_data.get('electrolyzer', False)
+        if "HES" in user_input_data:
+            user_input_data["HES"]["设备选择状态"] = project_data.get('hydrogen_storage', False)
         if "HFC" in user_input_data:
             user_input_data["HFC"]["设备选择状态"] = project_data.get('fuel_cell', False)
         if "ESS" in user_input_data:
             user_input_data["ESS"]["设备选择状态"] = project_data.get('battery_storage', False)
         if "外部电网" in user_input_data:
-            user_input_data["外部电网"]["设备选择状态"] = project_data.get('external_grid', False)
+            user_input_data["外部电网"]["设备选择状态"] = project_data.get('external_grid', True)
         if "外部氢网" in user_input_data:
-            user_input_data["外部氢网"]["设备选择状态"] = project_data.get('external_hydrogen', False)
+            user_input_data["外部氢网"]["设备选择状态"] = project_data.get('external_hydrogen', True)
+        
+        # 更新负荷选择状态
+        if "氧负荷" in user_input_data and "售氧" in user_input_data["氧负荷"]:
+            user_input_data["氧负荷"]["售氧"]["设备选择状态"] = project_data.get('oxygen_load', False)
+        
+        if "氢负荷" in user_input_data:
+            hydrogen_loads = user_input_data["氢负荷"]
+            if "合成氨" in hydrogen_loads:
+                hydrogen_loads["合成氨"]["设备选择状态"] = project_data.get('ammonia_load', False)
+            if "合成甲醇" in hydrogen_loads:
+                hydrogen_loads["合成甲醇"]["设备选择状态"] = project_data.get('methanol_load', False)
+            if "成品油加工" in hydrogen_loads:
+                hydrogen_loads["成品油加工"]["设备选择状态"] = project_data.get('oil_refining_load', False)
+            if "燃料电池汽车加氢" in hydrogen_loads:
+                hydrogen_loads["燃料电池汽车加氢"]["设备选择状态"] = project_data.get('vehicle_hydrogen_load', False)
+            if "钢铁冶炼" in hydrogen_loads:
+                hydrogen_loads["钢铁冶炼"]["设备选择状态"] = project_data.get('steel_load', False)
+            if "其他用途售氢" in hydrogen_loads:
+                hydrogen_loads["其他用途售氢"]["设备选择状态"] = project_data.get('other_hydrogen_load', False)
+        
+        if "电负荷" in user_input_data and "系统内用电单元" in user_input_data["电负荷"]:
+            user_input_data["电负荷"]["系统内用电单元"]["设备选择状态"] = project_data.get('electrical_load', False)
     
     def update_indicator_data(self, indicator_system_data, indicator_data):
-        """更新指标系统数据"""
-        selected_indicators = indicator_data.get('selected_indicators', [])
-        
-        # 更新财务效益指标
-        if "财务效益指标" in indicator_system_data:
-            for indicator_name, indicator_info in indicator_system_data["财务效益指标"].items():
-                indicator_id = self.get_indicator_id_by_name(indicator_name)
-                indicator_info["选择状态"] = indicator_id in selected_indicators
-        
-        # 更新技术效益指标
-        if "技术效益指标" in indicator_system_data:
-            for indicator_name, indicator_info in indicator_system_data["技术效益指标"].items():
-                indicator_id = self.get_indicator_id_by_name(indicator_name)
-                indicator_info["选择状态"] = indicator_id in selected_indicators
-        
-        # 更新环境效益指标
-        if "环境效益指标" in indicator_system_data:
-            for indicator_name, indicator_info in indicator_system_data["环境效益指标"].items():
-                indicator_id = self.get_indicator_id_by_name(indicator_name)
-                indicator_info["选择状态"] = indicator_id in selected_indicators
-    
-    def get_indicator_id_by_name(self, indicator_name):
-        """根据指标名称获取指标ID"""
-        indicator_mapping = {
-            "初始投资成本": "initial_investment",
-            "内部收益率": "irr",
-            "投资回收期": "dpp",
-            "净现值": "npv",
-            "年运维成本": "annual_maintenance",
-            "能源外购成本": "energy_purchase",
-            "能源网供应占比": "energy_supply_ratio",
-            "电储能利用水平": "battery_utilization",
-            "氢储能利用水平": "hydrogen_utilization",
-            "等效可利用小时数": "equivalent_hours",
-            "可再生能源供应占比": "renewable_ratio"
-        }
-        return indicator_mapping.get(indicator_name, "")
+        """更新指标数据"""
+        for category, indicators in indicator_system_data.items():
+            if isinstance(indicators, dict):
+                for indicator_name, indicator_info in indicators.items():
+                    if isinstance(indicator_info, dict) and "选择状态" in indicator_info:
+                        # 根据指标编码或名称更新选择状态
+                        indicator_code = indicator_info.get("指标编码", "")
+                        if indicator_code in indicator_data:
+                            indicator_info["选择状态"] = indicator_data[indicator_code]
+                        elif indicator_name in indicator_data:
+                            indicator_info["选择状态"] = indicator_data[indicator_name]
     
     def parse_number(self, value):
-        """解析数字"""
-        if value is None or value == '':
+        """解析数值，如果是None或空字符串则返回None"""
+        if value is None or value == "":
             return None
         try:
+            if isinstance(value, str):
+                value = value.strip()
+                if value == "":
+                    return None
             return float(value)
-        except:
+        except (ValueError, TypeError):
             return None
     
     def parse_price_list(self, value):
-        """解析价格列表（24小时分时数据）"""
-        if value is None or value == '':
-            return None
-        try:
-            # 如果是字符串，尝试按逗号分割
-            if isinstance(value, str):
-                prices = [float(x.strip()) for x in value.split(',') if x.strip()]
-                # 如果不足24个值，用最后一个值填充
-                if len(prices) < 24:
-                    last_value = prices[-1] if prices else 0
-                    prices.extend([last_value] * (24 - len(prices)))
-                return prices[:24]  # 只取前24个值
+        """解析价格列表，返回24小时的价格数组"""
+        # 默认返回24个0.0
+        default_list = [0.0] * 24
+        
+        if value is None:
+            return default_list
+        
+        if isinstance(value, list):
+            # 如果已经是列表，确保长度为24
+            if len(value) == 24:
+                return [float(v) if v is not None else 0.0 for v in value]
             else:
-                return None
-        except:
-            return None
+                # 调整列表长度为24
+                result = [float(v) if v is not None else 0.0 for v in value]
+                if len(result) < 24:
+                    # 不足24个则用最后一个值填充
+                    last_value = result[-1] if result else 0.0
+                    result.extend([last_value] * (24 - len(result)))
+                return result[:24]  # 截断为24个值
+        
+        try:
+            if isinstance(value, str):
+                # 尝试解析为逗号分隔的字符串
+                values = value.split(',')
+                result = []
+                
+                for v in values:
+                    try:
+                        result.append(float(v.strip()))
+                    except (ValueError, TypeError):
+                        result.append(0.0)
+                
+                # 调整长度为24
+                if len(result) < 24:
+                    last_value = result[-1] if result else 0.0
+                    result.extend([last_value] * (24 - len(result)))
+                return result[:24]  # 截断为24个值
+            else:
+                # 如果是单个数值，复制24次
+                single_value = float(value)
+                return [single_value] * 24
+        except (ValueError, TypeError, IndexError):
+            return default_list
     
     def parse_capacity_list(self, value):
-        """解析容量列表（多方案数据）"""
-        if value is None or value == '':
+        """解析容量列表，根据方案数量返回对应数组"""
+        if value is None:
             return None
+        
+        if isinstance(value, list):
+            return [float(v) if v is not None else 0.0 for v in value]
+        
         try:
-            # 如果是字符串，尝试按逗号分割
-            if isinstance(value, str):
-                # 替换中文逗号为英文逗号
-                value = value.replace('，', ',')
-                capacities = [float(x.strip()) for x in value.split(',') if x.strip()]
-                return capacities
-            else:
-                return None
-        except:
+            # 如果是单个数值，返回包含这个值的列表
+            return [float(value)]
+        except (ValueError, TypeError):
             return None
     
     def load_project(self, project_path):
-        """加载项目数据"""
+        """加载项目"""
         try:
             self.current_project_path = project_path
             
@@ -490,9 +562,18 @@ class DataManager:
                     self.indicator_data = json.load(f)
             
             return True
+            
         except Exception as e:
             print(f"加载项目失败：{str(e)}")
             return False
+    
+    def get_project_data(self):
+        """获取项目数据"""
+        return self.project_data
+    
+    def get_indicator_data(self):
+        """获取指标数据"""
+        return self.indicator_data
     
     def get_project_data_for_ui(self):
         """获取用于UI显示的项目数据"""
@@ -503,21 +584,144 @@ class DataManager:
         
         # 项目基本信息
         if "项目基本信息" in self.project_data:
-            ui_data['project_name'] = self.project_data["项目基本信息"]["项目名称"]["数值"] or ""
-            ui_data['project_life'] = str(self.project_data["项目基本信息"]["项目生命周期"]["数值"] or "")
-            ui_data['project_people'] = str(self.project_data["项目基本信息"]["项目人数"]["数值"] or "")
+            basic_info = self.project_data["项目基本信息"]
+            ui_data['project_name'] = basic_info.get("项目名称", {}).get("数值", "")
+            ui_data['project_life'] = str(basic_info.get("项目生命周期", {}).get("数值", "")) if basic_info.get("项目生命周期", {}).get("数值") else ""
+            ui_data['project_people'] = str(basic_info.get("项目人数", {}).get("数值", "")) if basic_info.get("项目人数", {}).get("数值") else ""
+            ui_data['scheme_count'] = str(basic_info.get("方案个数", {}).get("数值", "")) if basic_info.get("方案个数", {}).get("数值") else ""
         
         # 财税与融资参数
         if "财税与融资参数" in self.project_data:
-            ui_data['vat_rate'] = str(self.project_data["财税与融资参数"]["增值税率"]["数值"] or "")
-            ui_data['income_tax_rate'] = str(self.project_data["财税与融资参数"]["企业所得税率"]["数值"] or "")
-            ui_data['vat_additional_rate'] = str(self.project_data["财税与融资参数"]["增值税附加税率"]["数值"] or "")
-            ui_data['equity_ratio'] = str(self.project_data["财税与融资参数"]["自有资金比例"]["数值"] or "")
-            ui_data['loan_rate'] = str(self.project_data["财税与融资参数"]["贷款利率"]["数值"] or "")
+            tax_finance = self.project_data["财税与融资参数"]
+            ui_data['vat_rate'] = str(tax_finance.get("增值税率", {}).get("数值", "")) if tax_finance.get("增值税率", {}).get("数值") else ""
+            ui_data['income_tax_rate'] = str(tax_finance.get("企业所得税率", {}).get("数值", "")) if tax_finance.get("企业所得税率", {}).get("数值") else ""
+            ui_data['vat_additional_rate'] = str(tax_finance.get("增值税附加税率", {}).get("数值", "")) if tax_finance.get("增值税附加税率", {}).get("数值") else ""
+            ui_data['equity_ratio'] = str(tax_finance.get("自有资金比例", {}).get("数值", "")) if tax_finance.get("自有资金比例", {}).get("数值") else ""
+            ui_data['loan_rate'] = str(tax_finance.get("贷款利率", {}).get("数值", "")) if tax_finance.get("贷款利率", {}).get("数值") else ""
         
-        # 添加更多数据转换...
+        # 财务分析参数
+        if "财务分析参数" in self.project_data:
+            financial_analysis = self.project_data["财务分析参数"]
+            ui_data['nominal_discount_rate'] = str(financial_analysis.get("名义贴现率", {}).get("数值", "")) if financial_analysis.get("名义贴现率", {}).get("数值") else ""
+            inflation_rate_value = financial_analysis.get("预期通货膨胀率", {}).get("数值")
+            ui_data['inflation_rate'] = str(inflation_rate_value) if inflation_rate_value is not None else ""
+            ui_data['inflation_rate_enabled'] = inflation_rate_value is not None
+        
+        # 价格参数
+        if "价格参数" in self.project_data:
+            price_params = self.project_data["价格参数"]
+            ui_data['oxygen_price'] = self.format_price_list(price_params.get("氧气的销售价格", {}).get("数值", []))
+            ui_data['electricity_sell_price'] = self.format_price_list(price_params.get("电能销售价格", {}).get("数值", []))
+            ui_data['electricity_buy_price'] = self.format_price_list(price_params.get("电能的购买价格", {}).get("数值", []))
+            ui_data['hydrogen_price'] = self.format_price_list(price_params.get("单位质量氢能的价格", {}).get("数值", []))
+        
+        # 成本参数
+        if "成本参数" in self.project_data:
+            cost_params = self.project_data["成本参数"]
+            ui_data['site_cost'] = str(cost_params.get("场地购置费用", {}).get("数值", "")) if cost_params.get("场地购置费用", {}).get("数值") else ""
+            ui_data['construction_cost'] = str(cost_params.get("工程施工费用", {}).get("数值", "")) if cost_params.get("工程施工费用", {}).get("数值") else ""
+            ui_data['personnel_cost'] = str(cost_params.get("年人员费用", {}).get("数值", "")) if cost_params.get("年人员费用", {}).get("数值") else ""
+        
+        # 设备选择状态
+        equipment_mapping = {
+            'wind_turbine': 'WT',
+            'pv': 'PV',
+            'electrolyzer': 'EL',
+            'hydrogen_storage': 'HES',
+            'fuel_cell': 'HFC',
+            'battery_storage': 'ESS',
+            'external_grid': '外部电网',
+            'external_hydrogen': '外部氢网'
+        }
+        
+        for ui_key, data_key in equipment_mapping.items():
+            if data_key in self.project_data:
+                ui_data[ui_key] = self.project_data[data_key].get("设备选择状态", False)
+        
+        # 设备参数
+        self.extract_equipment_params_for_ui(ui_data)
+        
+        # 负荷选择状态
+        self.extract_load_params_for_ui(ui_data)
         
         return ui_data
+    
+    def extract_equipment_params_for_ui(self, ui_data):
+        """提取设备参数用于UI显示"""
+        # WT参数
+        if "WT" in self.project_data:
+            wt_data = self.project_data["WT"]
+            ui_data['wt_lifetime'] = str(wt_data.get("设备使用寿命", {}).get("数值", "")) if wt_data.get("设备使用寿命", {}).get("数值") else ""
+            ui_data['wt_investment_cost'] = str(wt_data.get("单位容量投资成本", {}).get("数值", "")) if wt_data.get("单位容量投资成本", {}).get("数值") else ""
+            ui_data['wt_maintenance_cost'] = str(wt_data.get("单位容量维护成本", {}).get("数值", "")) if wt_data.get("单位容量维护成本", {}).get("数值") else ""
+            ui_data['wt_residual_value'] = str(wt_data.get("单位容量残值系数", {}).get("数值", "")) if wt_data.get("单位容量残值系数", {}).get("数值") else ""
+            ui_data['wt_total_capacity'] = self.format_capacity_list(wt_data.get("风力发电总装机", {}).get("数值"))
+        
+        # PV参数
+        if "PV" in self.project_data:
+            pv_data = self.project_data["PV"]
+            ui_data['pv_lifetime'] = str(pv_data.get("设备使用寿命", {}).get("数值", "")) if pv_data.get("设备使用寿命", {}).get("数值") else ""
+            ui_data['pv_investment_cost'] = str(pv_data.get("单位容量投资成本", {}).get("数值", "")) if pv_data.get("单位容量投资成本", {}).get("数值") else ""
+            ui_data['pv_maintenance_cost'] = str(pv_data.get("单位容量维护成本", {}).get("数值", "")) if pv_data.get("单位容量维护成本", {}).get("数值") else ""
+            ui_data['pv_residual_value'] = str(pv_data.get("单位容量残值系数", {}).get("数值", "")) if pv_data.get("单位容量残值系数", {}).get("数值") else ""
+            ui_data['pv_total_capacity'] = self.format_capacity_list(pv_data.get("光伏机组总装机", {}).get("数值"))
+        
+        # EL参数
+        if "EL" in self.project_data:
+            el_data = self.project_data["EL"]
+            ui_data['el_lifetime'] = str(el_data.get("设备使用寿命", {}).get("数值", "")) if el_data.get("设备使用寿命", {}).get("数值") else ""
+            ui_data['el_efficiency'] = str(el_data.get("能量转化系数", {}).get("数值", "")) if el_data.get("能量转化系数", {}).get("数值") else ""
+            ui_data['el_investment_cost'] = str(el_data.get("单位容量投资成本", {}).get("数值", "")) if el_data.get("单位容量投资成本", {}).get("数值") else ""
+            ui_data['el_maintenance_cost'] = str(el_data.get("单位容量维护成本", {}).get("数值", "")) if el_data.get("单位容量维护成本", {}).get("数值") else ""
+            ui_data['el_residual_value'] = str(el_data.get("单位容量残值系数", {}).get("数值", "")) if el_data.get("单位容量残值系数", {}).get("数值") else ""
+            ui_data['el_total_capacity'] = self.format_capacity_list(el_data.get("电解槽配置容量", {}).get("数值"))
+        
+        # HES参数
+        if "HES" in self.project_data:
+            hes_data = self.project_data["HES"]
+            ui_data['hes_lifetime'] = str(hes_data.get("设备使用寿命", {}).get("数值", "")) if hes_data.get("设备使用寿命", {}).get("数值") else ""
+            ui_data['hes_investment_cost'] = str(hes_data.get("单位容量投资成本", {}).get("数值", "")) if hes_data.get("单位容量投资成本", {}).get("数值") else ""
+            ui_data['hes_maintenance_cost'] = str(hes_data.get("单位容量维护成本", {}).get("数值", "")) if hes_data.get("单位容量维护成本", {}).get("数值") else ""
+            ui_data['hes_residual_value'] = str(hes_data.get("单位容量残值系数", {}).get("数值", "")) if hes_data.get("单位容量残值系数", {}).get("数值") else ""
+            ui_data['hes_total_capacity'] = self.format_capacity_list(hes_data.get("氢储能装置配置容量", {}).get("数值"))
+        
+        # HFC参数
+        if "HFC" in self.project_data:
+            hfc_data = self.project_data["HFC"]
+            ui_data['hfc_lifetime'] = str(hfc_data.get("设备使用寿命", {}).get("数值", "")) if hfc_data.get("设备使用寿命", {}).get("数值") else ""
+            ui_data['hfc_investment_cost'] = str(hfc_data.get("单位容量投资成本", {}).get("数值", "")) if hfc_data.get("单位容量投资成本", {}).get("数值") else ""
+            ui_data['hfc_maintenance_cost'] = str(hfc_data.get("单位容量维护成本", {}).get("数值", "")) if hfc_data.get("单位容量维护成本", {}).get("数值") else ""
+            ui_data['hfc_residual_value'] = str(hfc_data.get("单位容量残值系数", {}).get("数值", "")) if hfc_data.get("单位容量残值系数", {}).get("数值") else ""
+            ui_data['hfc_total_capacity'] = self.format_capacity_list(hfc_data.get("燃料电池配置容量", {}).get("数值"))
+        
+        # ESS参数
+        if "ESS" in self.project_data:
+            ess_data = self.project_data["ESS"]
+            ui_data['ess_efficiency'] = str(ess_data.get("蓄电池充放电效率", {}).get("数值", "")) if ess_data.get("蓄电池充放电效率", {}).get("数值") else ""
+            ui_data['ess_operation_cost'] = str(ess_data.get("蓄电池单位运行成本", {}).get("数值", "")) if ess_data.get("蓄电池单位运行成本", {}).get("数值") else ""
+            ui_data['ess_lifetime'] = str(ess_data.get("设备使用寿命", {}).get("数值", "")) if ess_data.get("设备使用寿命", {}).get("数值") else ""
+            ui_data['ess_investment_cost'] = str(ess_data.get("单位容量投资成本", {}).get("数值", "")) if ess_data.get("单位容量投资成本", {}).get("数值") else ""
+            ui_data['ess_capacity'] = self.format_capacity_list(ess_data.get("蓄电池配置容量", {}).get("数值"))
+    
+    def extract_load_params_for_ui(self, ui_data):
+        """提取负荷参数用于UI显示"""
+        # 氧负荷
+        if "氧负荷" in self.project_data and "售氧" in self.project_data["氧负荷"]:
+            ui_data['oxygen_load'] = self.project_data["氧负荷"]["售氧"].get("设备选择状态", False)
+        
+        # 氢负荷
+        if "氢负荷" in self.project_data:
+            hydrogen_loads = self.project_data["氢负荷"]
+            ui_data['ammonia_load'] = hydrogen_loads.get("合成氨", {}).get("设备选择状态", False)
+            ui_data['methanol_load'] = hydrogen_loads.get("合成甲醇", {}).get("设备选择状态", False)
+            ui_data['oil_refining_load'] = hydrogen_loads.get("成品油加工", {}).get("设备选择状态", False)
+            ui_data['vehicle_hydrogen_load'] = hydrogen_loads.get("燃料电池汽车加氢", {}).get("设备选择状态", False)
+            ui_data['steel_load'] = hydrogen_loads.get("钢铁冶炼", {}).get("设备选择状态", False)
+            ui_data['other_hydrogen_load'] = hydrogen_loads.get("其他用途售氢", {}).get("设备选择状态", False)
+        
+        # 电负荷
+        if "电负荷" in self.project_data and "系统内用电单元" in self.project_data["电负荷"]:
+            ui_data['electrical_load'] = self.project_data["电负荷"]["系统内用电单元"].get("设备选择状态", False)
     
     def get_indicator_data_for_ui(self):
         """获取用于UI显示的指标数据"""
@@ -525,13 +729,57 @@ class DataManager:
             return {'selected_indicators': []}
         
         selected_indicators = []
+        indicator_mapping = {
+            'A1': 'initial_investment',
+            'A2': 'annual_maintenance', 
+            'A3': 'energy_purchase',
+            'A4': 'npv',
+            'A5': 'irr',
+            'A6': 'dpp',
+            'B1': 'energy_supply_ratio',
+            'B2': 'battery_utilization',
+            'B3': 'hydrogen_utilization',
+            'B4': 'equivalent_hours',
+            'C1': 'renewable_ratio'
+        }
         
-        # 遍历所有指标类别
-        for category in self.indicator_data.values():
-            for indicator_name, indicator_info in category.items():
-                if indicator_info.get("选择状态", False):
-                    indicator_id = self.get_indicator_id_by_name(indicator_name)
-                    if indicator_id:
-                        selected_indicators.append(indicator_id)
+        for category, indicators in self.indicator_data.items():
+            if isinstance(indicators, dict):
+                for indicator_name, indicator_info in indicators.items():
+                    if isinstance(indicator_info, dict) and indicator_info.get("选择状态", False):
+                        indicator_code = indicator_info.get("指标编码", "")
+                        if indicator_code in indicator_mapping:
+                            selected_indicators.append(indicator_mapping[indicator_code])
         
         return {'selected_indicators': selected_indicators}
+    
+    def format_price_list(self, price_list):
+        """格式化价格列表为字符串"""
+        if not price_list or not isinstance(price_list, list):
+            return ""
+        
+        # 确保总是返回24个值的逗号分隔字符串
+        if isinstance(price_list, list):
+            # 补全或截断为24个值
+            if len(price_list) < 24:
+                # 如果不足24个值，用最后一个值填充
+                last_value = price_list[-1] if price_list else 0.0
+                price_list = price_list + [last_value] * (24 - len(price_list))
+            elif len(price_list) > 24:
+                # 如果超过24个值，截断
+                price_list = price_list[:24]
+            
+            # 将所有值格式化为字符串并用逗号连接
+            return ",".join(str(float(x)) for x in price_list)
+        
+        return ""
+    
+    def format_capacity_list(self, capacity_list):
+        """格式化容量列表为字符串"""
+        if not capacity_list:
+            return ""
+        
+        if isinstance(capacity_list, list):
+            return ",".join(str(x) for x in capacity_list)
+        else:
+            return str(capacity_list)
