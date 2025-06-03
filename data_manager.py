@@ -490,17 +490,45 @@ class DataManager:
     
     def update_indicator_data(self, indicator_system_data, indicator_data):
         """更新指标数据"""
+        # 获取选中的指标列表
+        selected_indicators = indicator_data.get('selected_indicators', [])
+        
+        # 指标ID与指标编码的映射关系
+        indicator_mapping = {
+            'initial_investment': 'A1',
+            'annual_maintenance': 'A2', 
+            'energy_purchase': 'A3',
+            'npv': 'A4',
+            'irr': 'A5',
+            'dpp': 'A6',
+            'energy_supply_ratio': 'B1',
+            'battery_utilization': 'B2',
+            'hydrogen_utilization': 'B3',
+            'equivalent_hours': 'B4',
+            'renewable_ratio': 'C1'
+        }
+        
+        # 为所有指标设置选择状态
         for category, indicators in indicator_system_data.items():
             if isinstance(indicators, dict):
                 for indicator_name, indicator_info in indicators.items():
                     if isinstance(indicator_info, dict) and "选择状态" in indicator_info:
-                        # 根据指标编码或名称更新选择状态
                         indicator_code = indicator_info.get("指标编码", "")
-                        if indicator_code in indicator_data:
-                            indicator_info["选择状态"] = indicator_data[indicator_code]
-                        elif indicator_name in indicator_data:
-                            indicator_info["选择状态"] = indicator_data[indicator_name]
-    
+                        
+                        # 查找对应的指标ID
+                        indicator_id = None
+                        for id_key, code_value in indicator_mapping.items():
+                            if code_value == indicator_code:
+                                indicator_id = id_key
+                                break
+                        
+                        # 设置选择状态
+                        if indicator_id:
+                            indicator_info["选择状态"] = indicator_id in selected_indicators
+                        else:
+                            # 如果没有找到对应的映射，默认为False
+                            indicator_info["选择状态"] = False
+
     def parse_number(self, value):
         """解析数值，如果是None或空字符串则返回None"""
         if value is None or value == "":
