@@ -93,15 +93,7 @@ class DataManager:
             ws = wb.active
             ws.title = "数据"
             
-            # 添加表头
-            ws['A1'] = "时间"
-            ws['B1'] = "方案1"
-            ws['C1'] = "方案2"
-            ws['D1'] = "方案3"
-            
-            # 添加24小时时间
-            for i in range(24):
-                ws[f'A{i+2}'] = f"{i:02d}:00"
+            # 不添加任何表头或数据，保持完全空白
             
             # 保存文件
             wb.save(os.path.join(project_path, filename))
