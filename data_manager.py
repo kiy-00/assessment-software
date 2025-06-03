@@ -379,7 +379,7 @@ class DataManager:
     def update_equipment_data(self, user_input_data, project_data):
         """更新设备参数数据"""
         # WT参数
-        if "WT" in user_input_data and project_data.get('wind_turbine'):
+        if "WT" in user_input_data:
             user_input_data["WT"]["设备使用寿命"]["数值"] = self.parse_number(project_data.get('wt_lifetime'))
             user_input_data["WT"]["单位容量投资成本"]["数值"] = self.parse_number(project_data.get('wt_investment_cost'))
             user_input_data["WT"]["单位容量维护成本"]["数值"] = self.parse_number(project_data.get('wt_maintenance_cost'))
@@ -389,9 +389,9 @@ class DataManager:
             if "电力电子接口装置成本设备成本的比例" in user_input_data["WT"]:
                 user_input_data["WT"]["电力电子接口装置成本设备成本的比例"]["选择状态"] = project_data.get('wt_power_electronics_enabled', True)
                 user_input_data["WT"]["电力电子接口装置成本设备成本的比例"]["数值"] = self.parse_number(project_data.get('wt_power_electronics_ratio'))
-        
+    
         # PV参数
-        if "PV" in user_input_data and project_data.get('pv'):
+        if "PV" in user_input_data:
             user_input_data["PV"]["设备使用寿命"]["数值"] = self.parse_number(project_data.get('pv_lifetime'))
             user_input_data["PV"]["单位容量投资成本"]["数值"] = self.parse_number(project_data.get('pv_investment_cost'))
             user_input_data["PV"]["单位容量维护成本"]["数值"] = self.parse_number(project_data.get('pv_maintenance_cost'))
@@ -401,9 +401,9 @@ class DataManager:
             if "电力电子接口装置成本设备成本的比例" in user_input_data["PV"]:
                 user_input_data["PV"]["电力电子接口装置成本设备成本的比例"]["选择状态"] = project_data.get('pv_power_electronics_enabled', True)
                 user_input_data["PV"]["电力电子接口装置成本设备成本的比例"]["数值"] = self.parse_number(project_data.get('pv_power_electronics_ratio'))
-        
+    
         # EL参数
-        if "EL" in user_input_data and project_data.get('electrolyzer'):
+        if "EL" in user_input_data:
             user_input_data["EL"]["设备使用寿命"]["数值"] = self.parse_number(project_data.get('el_lifetime'))
             user_input_data["EL"]["单位容量投资成本"]["数值"] = self.parse_number(project_data.get('el_investment_cost'))
             user_input_data["EL"]["单位容量维护成本"]["数值"] = self.parse_number(project_data.get('el_maintenance_cost'))
@@ -413,17 +413,17 @@ class DataManager:
             if "电力电子接口装置成本设备成本的比例" in user_input_data["EL"]:
                 user_input_data["EL"]["电力电子接口装置成本设备成本的比例"]["选择状态"] = project_data.get('el_power_electronics_enabled', True)
                 user_input_data["EL"]["电力电子接口装置成本设备成本的比例"]["数值"] = self.parse_number(project_data.get('el_power_electronics_ratio'))
-        
+    
         # HES参数
-        if "HES" in user_input_data and project_data.get('hydrogen_storage'):
+        if "HES" in user_input_data:
             user_input_data["HES"]["设备使用寿命"]["数值"] = self.parse_number(project_data.get('hes_lifetime'))
             user_input_data["HES"]["单位容量投资成本"]["数值"] = self.parse_number(project_data.get('hes_investment_cost'))
             user_input_data["HES"]["单位容量维护成本"]["数值"] = self.parse_number(project_data.get('hes_maintenance_cost'))
             user_input_data["HES"]["单位容量残值系数"]["数值"] = self.parse_number(project_data.get('hes_residual_value'))
             user_input_data["HES"]["氢储能装置配置容量"]["数值"] = self.parse_capacity_list(project_data.get('hes_capacity'))
-        
+    
         # HFC参数
-        if "HFC" in user_input_data and project_data.get('fuel_cell'):
+        if "HFC" in user_input_data:
             user_input_data["HFC"]["设备使用寿命"]["数值"] = self.parse_number(project_data.get('hfc_lifetime'))
             user_input_data["HFC"]["单位容量投资成本"]["数值"] = self.parse_number(project_data.get('hfc_investment_cost'))
             user_input_data["HFC"]["单位容量维护成本"]["数值"] = self.parse_number(project_data.get('hfc_maintenance_cost'))
@@ -433,9 +433,10 @@ class DataManager:
             if "电力电子接口装置成本设备成本的比例" in user_input_data["HFC"]:
                 user_input_data["HFC"]["电力电子接口装置成本设备成本的比例"]["选择状态"] = project_data.get('hfc_power_electronics_enabled', True)
                 user_input_data["HFC"]["电力电子接口装置成本设备成本的比例"]["数值"] = self.parse_number(project_data.get('hfc_power_electronics_ratio'))
-        
+    
         # ESS参数
-        if "ESS" in user_input_data and project_data.get('battery_storage'):
+        if "ESS" in user_input_data:
+            user_input_data["ESS"]["蓄电池充放电效率"]["数值"] = self.parse_number(project_data.get('ess_efficiency'))
             user_input_data["ESS"]["设备使用寿命"]["数值"] = self.parse_number(project_data.get('ess_lifetime'))
             user_input_data["ESS"]["单位容量投资成本"]["数值"] = self.parse_number(project_data.get('ess_investment_cost'))
             user_input_data["ESS"]["蓄电池单位运行成本"]["数值"] = self.parse_number(project_data.get('ess_operation_cost'))
