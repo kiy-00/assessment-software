@@ -196,6 +196,7 @@ class DataManager:
                 "设备使用寿命": {"单位": "年", "类型": "General", "选择状态": True, "数值": None, "备注": ""},
                 "电力电子接口装置成本设备成本的比例": {"单位": "%", "类型": "General", "选择状态": True, "数值": 5, "备注": ""},
                 "单位容量投资成本": {"单位": "元/kW", "类型": "General", "选择状态": True, "数值": None, "备注": ""},
+                "单位容量残值系数": {"单位": "%", "类型": "General", "选择状态": True, "数值": 5, "备注": ""},
                 "蓄电池配置容量": {"单位": "kW", "类型": "Particular", "选择状态": True, "数值": None, "备注": ""}
             },
             "外部电网": {"设备选择状态": True},
@@ -432,6 +433,7 @@ class DataManager:
             user_input_data["ESS"]["设备使用寿命"]["数值"] = self.parse_number(project_data.get('ess_lifetime'))
             user_input_data["ESS"]["单位容量投资成本"]["数值"] = self.parse_number(project_data.get('ess_investment_cost'))
             user_input_data["ESS"]["蓄电池单位运行成本"]["数值"] = self.parse_number(project_data.get('ess_operation_cost'))
+            user_input_data["ESS"]["单位容量残值系数"]["数值"] = self.parse_number(project_data.get('ess_residual_value'))
             user_input_data["ESS"]["蓄电池配置容量"]["数值"] = self.parse_capacity_list(project_data.get('ess_capacity'))
             # 更新电力电子接口装置的选择状态和数值
             if "电力电子接口装置成本设备成本的比例" in user_input_data["ESS"]:
@@ -795,7 +797,8 @@ class DataManager:
             ui_data['ess_operation_cost'] = str(ess_data.get("蓄电池单位运行成本", {}).get("数值", "")) if ess_data.get("蓄电池单位运行成本", {}).get("数值") else ""
             ui_data['ess_lifetime'] = str(ess_data.get("设备使用寿命", {}).get("数值", "")) if ess_data.get("设备使用寿命", {}).get("数值") else ""
             ui_data['ess_investment_cost'] = str(ess_data.get("单位容量投资成本", {}).get("数值", "")) if ess_data.get("单位容量投资成本", {}).get("数值") else ""
-            ui_data['ess_capacity'] = self.format_capacity_list(ess_data.get("蓄电池配置容量", {}).get("数值"))  # 修正：使用正确的字段名
+            ui_data['ess_residual_value'] = str(ess_data.get("单位容量残值系数", {}).get("数值", "")) if ess_data.get("单位容量残值系数", {}).get("数值") else ""
+            ui_data['ess_capacity'] = self.format_capacity_list(ess_data.get("蓄电池配置容量", {}).get("数值"))
             # 添加电力电子接口装置选择状态和数值
             ui_data['ess_power_electronics_enabled'] = ess_data.get("电力电子接口装置成本设备成本的比例", {}).get("选择状态", False)
             ui_data['ess_power_electronics_ratio'] = str(ess_data.get("电力电子接口装置成本设备成本的比例", {}).get("数值", "")) if ess_data.get("电力电子接口装置成本设备成本的比例", {}).get("数值") else ""

@@ -470,14 +470,19 @@ class ProjectDesignPage(QWidget):
         self.ess_investment_cost_edit = QLineEdit()
         layout.addWidget(self.ess_investment_cost_edit, 5, 1)
         
+        # 单位容量残值系数
+        layout.addWidget(QLabel("单位容量残值系数（%）"), 6, 0)
+        self.ess_residual_value_edit = QLineEdit()
+        layout.addWidget(self.ess_residual_value_edit, 6, 1)
+        
         # 说明文字和总容量
         note_label = QLabel("※在输入框中输入各方案ESS容量，使用半角逗号\",\"隔开")
         note_label.setStyleSheet("QLabel { color: #666; font-size: 9pt; }")
-        layout.addWidget(note_label, 6, 0, 1, 2)
+        layout.addWidget(note_label, 7, 0, 1, 2)
         
-        layout.addWidget(QLabel("蓄电池配置容量（kW）"), 7, 0)
+        layout.addWidget(QLabel("蓄电池配置容量（kW）"), 8, 0)
         self.ess_total_capacity_edit = QLineEdit()
-        layout.addWidget(self.ess_total_capacity_edit, 7, 1)
+        layout.addWidget(self.ess_total_capacity_edit, 8, 1)
         
         parent_layout.addWidget(group)
     
@@ -772,7 +777,8 @@ class ProjectDesignPage(QWidget):
             'ess_operation_cost': self.ess_operation_cost_edit.text(),
             'ess_lifetime': self.ess_lifetime_edit.text(),
             'ess_investment_cost': self.ess_investment_cost_edit.text(),
-            'ess_capacity': self.ess_total_capacity_edit.text(),  # 修正：使用正确的字段名
+            'ess_residual_value': self.ess_residual_value_edit.text(),
+            'ess_capacity': self.ess_total_capacity_edit.text(),
             'hes_lifetime': self.hes_lifetime_edit.text(),
             'hes_investment_cost': self.hes_investment_cost_edit.text(),
             'hes_maintenance_cost': self.hes_maintenance_cost_edit.text(),
@@ -916,8 +922,9 @@ class ProjectDesignPage(QWidget):
         self.ess_operation_cost_edit.setText(data.get('ess_operation_cost', ''))
         self.ess_lifetime_edit.setText(data.get('ess_lifetime', ''))
         self.ess_investment_cost_edit.setText(data.get('ess_investment_cost', ''))
-        self.ess_total_capacity_edit.setText(data.get('ess_capacity', ''))  # 修正：使用正确的字段名
-    
+        self.ess_residual_value_edit.setText(data.get('ess_residual_value', ''))
+        self.ess_total_capacity_edit.setText(data.get('ess_capacity', ''))
+
         self.hes_lifetime_edit.setText(data.get('hes_lifetime', ''))
         self.hes_investment_cost_edit.setText(data.get('hes_investment_cost', ''))
         self.hes_maintenance_cost_edit.setText(data.get('hes_maintenance_cost', ''))
