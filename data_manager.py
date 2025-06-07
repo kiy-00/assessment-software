@@ -165,7 +165,7 @@ class DataManager:
             "EL": {
                 "设备选择状态": True,
                 "设备使用寿命": {"单位": "年", "类型": "General", "选择状态": True, "数值": None, "备注": ""},
-                "能量转化系数": {"单位": "1", "类型": "General", "选择状态": True, "数值": 39.4, "备注": ""},
+                "能量转化系数": {"单位": "1", "类型": "General", "选择状态": True, "数值": 33.4, "备注": ""},
                 "电力电子接口装置成本设备成本的比例": {"单位": "%", "类型": "General", "选择状态": True, "数值": 5, "备注": ""},
                 "单位容量投资成本": {"单位": "元/kW", "类型": "General", "选择状态": True, "数值": None, "备注": ""},
                 "单位容量维护成本": {"单位": "元/kW", "类型": "General", "选择状态": True, "数值": None, "备注": ""},
@@ -175,10 +175,10 @@ class DataManager:
             "HES": {
                 "设备选择状态": True,
                 "设备使用寿命": {"单位": "年", "类型": "General", "选择状态": True, "数值": None, "备注": ""},
-                "单位容量投资成本": {"单位": "元/kW", "类型": "General", "选择状态": True, "数值": None, "备注": ""},
-                "单位容量维护成本": {"单位": "元/kW", "类型": "General", "选择状态": True, "数值": None, "备注": ""},
+                "单位容量投资成本": {"单位": "元/kg", "类型": "General", "选择状态": True, "数值": None, "备注": ""},
+                "单位容量维护成本": {"单位": "元/kg", "类型": "General", "选择状态": True, "数值": None, "备注": ""},
                 "单位容量残值系数": {"单位": "%", "类型": "General", "选择状态": True, "数值": 5, "备注": ""},
-                "氢储能装置配置容量": {"单位": "kW", "类型": "Particular", "选择状态": True, "数值": None, "备注": ""}
+                "氢储能装置配置容量": {"单位": "kg", "类型": "Particular", "选择状态": True, "数值": None, "备注": ""}
             },
             "HFC": {
                 "设备选择状态": True,
@@ -192,15 +192,15 @@ class DataManager:
             "ESS": {
                 "设备选择状态": True,
                 "蓄电池充放电效率": {"单位": "%", "类型": "General", "选择状态": True, "数值": 90, "备注": ""},
-                "蓄电池单位运行成本": {"单位": "元", "类型": "General", "选择状态": True, "数值": None, "备注": ""},
+                "蓄电池单位运行成本": {"单位": "元/kW·h", "类型": "General", "选择状态": True, "数值": None, "备注": ""},
                 "设备使用寿命": {"单位": "年", "类型": "General", "选择状态": True, "数值": None, "备注": ""},
                 "电力电子接口装置成本设备成本的比例": {"单位": "%", "类型": "General", "选择状态": True, "数值": 5, "备注": ""},
-                "单位容量投资成本": {"单位": "元/kW", "类型": "General", "选择状态": True, "数值": None, "备注": ""},
+                "单位容量投资成本": {"单位": "元/kW·h", "类型": "General", "选择状态": True, "数值": None, "备注": ""},
                 "单位容量残值系数": {"单位": "%", "类型": "General", "选择状态": True, "数值": 5, "备注": ""},
-                "蓄电池配置容量": {"单位": "kW", "类型": "Particular", "选择状态": True, "数值": None, "备注": ""}
+                "蓄电池配置容量": {"单位": "kW·h", "类型": "Particular", "选择状态": True, "数值": None, "备注": ""}
             },
             "外部电网": {"设备选择状态": True},
-            "外部氢网": {"设备选择状态": True},
+            "外部氢源": {"设备选择状态": True},
             "氧负荷": {
                 "售氧": {"设备选择状态": True}
             },
@@ -457,8 +457,8 @@ class DataManager:
             user_input_data["ESS"]["设备选择状态"] = project_data.get('battery_storage', False)
         if "外部电网" in user_input_data:
             user_input_data["外部电网"]["设备选择状态"] = project_data.get('external_grid', True)
-        if "外部氢网" in user_input_data:
-            user_input_data["外部氢网"]["设备选择状态"] = project_data.get('external_hydrogen', True)
+        if "外部氢源" in user_input_data:
+            user_input_data["外部氢源"]["设备选择状态"] = project_data.get('external_hydrogen', True)
         
         # 更新负荷选择状态
         if "氧负荷" in user_input_data and "售氧" in user_input_data["氧负荷"]:
@@ -715,7 +715,7 @@ class DataManager:
             'fuel_cell': 'HFC',
             'battery_storage': 'ESS',
             'external_grid': '外部电网',
-            'external_hydrogen': '外部氢网'
+            'external_hydrogen': '外部氢源'
         }
         
         for ui_key, data_key in equipment_mapping.items():

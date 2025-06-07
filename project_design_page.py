@@ -225,36 +225,47 @@ class ProjectDesignPage(QWidget):
         # 系统结构单元选择
         left_frame = QFrame()
         left_layout = QVBoxLayout(left_frame)
-        left_layout.addWidget(QLabel("系统结构单元选择："))
+        
+        left_title = QLabel("系统结构单元选择：")
+        left_title.setFont(QFont("微软雅黑", 9))
+        left_layout.addWidget(left_title)
         
         self.wind_turbine_checkbox = QCheckBox("风力发电单元(WT)")
+        self.wind_turbine_checkbox.setFont(QFont("微软雅黑", 9))
         self.wind_turbine_checkbox.setChecked(True)
         left_layout.addWidget(self.wind_turbine_checkbox)
         
         self.pv_checkbox = QCheckBox("光伏机组(PV)")
+        self.pv_checkbox.setFont(QFont("微软雅黑", 9))
         left_layout.addWidget(self.pv_checkbox)
         
         # 电解槽(EL) - 只显示文本，不带复选框
         electrolyzer_label = QLabel("    电解槽(EL)")
+        electrolyzer_label.setFont(QFont("微软雅黑", 9))
         left_layout.addWidget(electrolyzer_label)
         
         # 氢储能系统(HES) - 只显示文本，不带复选框
         hydrogen_storage_label = QLabel("    氢储能系统(HES)")
+        hydrogen_storage_label.setFont(QFont("微软雅黑", 9))
         left_layout.addWidget(hydrogen_storage_label)
         
         self.fuel_cell_checkbox = QCheckBox("氢燃料电池(HFC)")
+        self.fuel_cell_checkbox.setFont(QFont("微软雅黑", 9))
         self.fuel_cell_checkbox.setChecked(True)
         left_layout.addWidget(self.fuel_cell_checkbox)
         
         self.battery_storage_checkbox = QCheckBox("电储能系统(ESS)")
+        self.battery_storage_checkbox.setFont(QFont("微软雅黑", 9))
         self.battery_storage_checkbox.setChecked(True)
         left_layout.addWidget(self.battery_storage_checkbox)
         
         self.external_grid_checkbox = QCheckBox("外部电网")
+        self.external_grid_checkbox.setFont(QFont("微软雅黑", 9))
         self.external_grid_checkbox.setChecked(True)
         left_layout.addWidget(self.external_grid_checkbox)
         
-        self.external_hydrogen_checkbox = QCheckBox("外部氢网")
+        self.external_hydrogen_checkbox = QCheckBox("外部氢源")
+        self.external_hydrogen_checkbox.setFont(QFont("微软雅黑", 9))
         self.external_hydrogen_checkbox.setChecked(True)
         left_layout.addWidget(self.external_hydrogen_checkbox)
         
@@ -357,12 +368,12 @@ class ProjectDesignPage(QWidget):
         layout.addWidget(self.wt_power_electronics_edit, 2, 1)
         
         # 单位容量投资成本
-        layout.addWidget(QLabel("单位容量投资成本（万元）"), 3, 0)
+        layout.addWidget(QLabel("单位容量投资成本（元/kW）"), 3, 0)
         self.wt_investment_cost_edit = QLineEdit()
         layout.addWidget(self.wt_investment_cost_edit, 3, 1)
         
         # 单位容量维护成本
-        layout.addWidget(QLabel("单位容量维护成本（万元）"), 4, 0)
+        layout.addWidget(QLabel("单位容量维护成本（元/kW）"), 4, 0)
         self.wt_maintenance_cost_edit = QLineEdit()
         layout.addWidget(self.wt_maintenance_cost_edit, 4, 1)
         
@@ -450,7 +461,7 @@ class ProjectDesignPage(QWidget):
         layout.addWidget(self.ess_efficiency_edit, 1, 1)
         
         # 蓄电池单位运行成本
-        layout.addWidget(QLabel("蓄电池单位运行成本（元/kW）"), 2, 0)
+        layout.addWidget(QLabel("蓄电池单位运行成本（元/kW·h）"), 2, 0)
         self.ess_operation_cost_edit = QLineEdit()
         layout.addWidget(self.ess_operation_cost_edit, 2, 1)
         
@@ -466,7 +477,7 @@ class ProjectDesignPage(QWidget):
         layout.addWidget(self.ess_power_electronics_edit, 4, 1)
         
         # 设备单位容量投资成本
-        layout.addWidget(QLabel("设备单位容量投资成本（万元）"), 5, 0)
+        layout.addWidget(QLabel("设备单位容量投资成本（元/kW·h）"), 5, 0)
         self.ess_investment_cost_edit = QLineEdit()
         layout.addWidget(self.ess_investment_cost_edit, 5, 1)
         
@@ -480,7 +491,7 @@ class ProjectDesignPage(QWidget):
         note_label.setStyleSheet("QLabel { color: #666; font-size: 9pt; }")
         layout.addWidget(note_label, 7, 0, 1, 2)
         
-        layout.addWidget(QLabel("蓄电池配置容量（kW）"), 8, 0)
+        layout.addWidget(QLabel("蓄电池配置容量（kW·h）"), 8, 0)
         self.ess_total_capacity_edit = QLineEdit()
         layout.addWidget(self.ess_total_capacity_edit, 8, 1)
         
@@ -504,12 +515,12 @@ class ProjectDesignPage(QWidget):
         layout.addWidget(self.hes_lifetime_edit, 1, 1)
         
         # 单位容量投资成本
-        layout.addWidget(QLabel("单位容量投资成本（万元）"), 2, 0)
+        layout.addWidget(QLabel("单位容量投资成本（元/kg）"), 2, 0)
         self.hes_investment_cost_edit = QLineEdit()
         layout.addWidget(self.hes_investment_cost_edit, 2, 1)
         
         # 单位容量维护成本
-        layout.addWidget(QLabel("单位容量维护成本（万元）"), 3, 0)
+        layout.addWidget(QLabel("单位容量维护成本（元/kg）"), 3, 0)
         self.hes_maintenance_cost_edit = QLineEdit()
         layout.addWidget(self.hes_maintenance_cost_edit, 3, 1)
         
@@ -523,8 +534,8 @@ class ProjectDesignPage(QWidget):
         note_label.setStyleSheet("QLabel { color: #666; font-size: 9pt; }")
         layout.addWidget(note_label, 6, 0, 1, 2)
         
-        layout.addWidget(QLabel("氢储能装置配置容量（kW）"), 7, 0)
-        self.hes_total_capacity_edit = QLineEdit()  # 修正：使用正确的变量名
+        layout.addWidget(QLabel("氢储能装置配置容量（kg）"), 7, 0)
+        self.hes_total_capacity_edit = QLineEdit()
         layout.addWidget(self.hes_total_capacity_edit, 7, 1)
         
         parent_layout.addWidget(group)
@@ -547,12 +558,12 @@ class ProjectDesignPage(QWidget):
         layout.addWidget(self.hfc_power_electronics_edit, 1, 1)
         
         # 单位容量投资成本
-        layout.addWidget(QLabel("单位容量投资成本（万元）"), 2, 0)
+        layout.addWidget(QLabel("单位容量投资成本（元/kW）"), 2, 0)
         self.hfc_investment_cost_edit = QLineEdit()
         layout.addWidget(self.hfc_investment_cost_edit, 2, 1)
         
         # 单位容量维护成本
-        layout.addWidget(QLabel("单位容量维护成本（万元）"), 3, 0)
+        layout.addWidget(QLabel("单位容量维护成本（元/kW）"), 3, 0)
         self.hfc_maintenance_cost_edit = QLineEdit()
         layout.addWidget(self.hfc_maintenance_cost_edit, 3, 1)
         
@@ -598,34 +609,39 @@ class ProjectDesignPage(QWidget):
         group.setFont(QFont("微软雅黑", 10, QFont.Bold))
         layout = QVBoxLayout(group)
         
-        # 氧负荷
+        # 氧负荷标题和方框
+        oxygen_title = QLabel("氧负荷")
+        oxygen_title.setFont(QFont("微软雅黑", 9, QFont.Bold))
+        layout.addWidget(oxygen_title)
+        
         oxygen_frame = QFrame()
         oxygen_frame.setFrameStyle(QFrame.Box)
         oxygen_layout = QGridLayout(oxygen_frame)
-        oxygen_layout.addWidget(QLabel("氧负荷"), 0, 0, 1, 2)
         
-        oxygen_layout.addWidget(QLabel("销售氧气的质量（kg）"), 1, 0)
+        oxygen_layout.addWidget(QLabel("销售氧气的质量（kg）"), 0, 0)
         oxygen_sell_btn = QPushButton("在列表中输入各方案数据")
         oxygen_sell_btn.setMaximumWidth(250)
-        oxygen_layout.addWidget(oxygen_sell_btn, 1, 1)
-        
+        oxygen_layout.addWidget(oxygen_sell_btn, 0, 1)
         
         layout.addWidget(oxygen_frame)
         
-        # 氢负荷
+        # 氢负荷标题和方框
+        hydrogen_title = QLabel("氢负荷")
+        hydrogen_title.setFont(QFont("微软雅黑", 9, QFont.Bold))
+        layout.addWidget(hydrogen_title)
+        
         hydrogen_frame = QFrame()
         hydrogen_frame.setFrameStyle(QFrame.Box)
         hydrogen_layout = QGridLayout(hydrogen_frame)
-        hydrogen_layout.addWidget(QLabel("氢负荷"), 0, 0, 1, 2)
         
         # 添加各种氢负荷项目
         hydrogen_items = [
-            "合成氨", "合成甲醇", "成品油加工", 
-            "燃料电池汽车加氢", "钢铁冶炼", "其他用途售氢"
+            "合成氨（kg）", "合成甲醇（kg）", "成品油加工（kg）", 
+            "燃料电池汽车加氢（kg）", "钢铁冶炼（kg）", "其他用途售氢（kg）"
         ]
         
         for i, item in enumerate(hydrogen_items):
-            row = i + 1
+            row = i
             hydrogen_layout.addWidget(QLabel(item), row, 0)
             btn = QPushButton("在列表中输入各方案数据")
             btn.setMaximumWidth(250)
@@ -633,16 +649,19 @@ class ProjectDesignPage(QWidget):
         
         layout.addWidget(hydrogen_frame)
         
-        # 电负荷
+        # 电负荷标题和方框
+        power_title = QLabel("电负荷")
+        power_title.setFont(QFont("微软雅黑", 9, QFont.Bold))
+        layout.addWidget(power_title)
+        
         power_frame = QFrame()
         power_frame.setFrameStyle(QFrame.Box)
         power_layout = QGridLayout(power_frame)
-        power_layout.addWidget(QLabel("电负荷"), 0, 0, 1, 2)
         
-        power_layout.addWidget(QLabel("电负荷所消耗的功率（kW）"), 1, 0)
+        power_layout.addWidget(QLabel("电负荷所消耗的功率（kW）"), 0, 0)
         power_consumption_btn = QPushButton("在列表中输入各方案数据")
         power_consumption_btn.setMaximumWidth(250)
-        power_layout.addWidget(power_consumption_btn, 1, 1)
+        power_layout.addWidget(power_consumption_btn, 0, 1)
         
         layout.addWidget(power_frame)
         parent_layout.addWidget(group)
@@ -789,7 +808,6 @@ class ProjectDesignPage(QWidget):
             'el_investment_cost': self.el_investment_cost_edit.text(),
             'el_maintenance_cost': self.el_maintenance_cost_edit.text(),
             'el_residual_value': self.el_residual_value_edit.text(),
-            'el_capacity': self.el_total_capacity_edit.text(),  # 修正：使用正确的字段名
             'hfc_lifetime': self.hfc_lifetime_edit.text(),
             'hfc_investment_cost': self.hfc_investment_cost_edit.text(),
             'hfc_maintenance_cost': self.hfc_maintenance_cost_edit.text(),
@@ -1020,7 +1038,7 @@ class ProjectDesignPage(QWidget):
         self.pv_residual_value_edit.setText("5")
         
         # 设置EL默认值
-        self.el_efficiency_edit.setText("39.4")
+        self.el_efficiency_edit.setText("33.4")
         self.el_power_electronics_checkbox.setChecked(True)
         self.el_power_electronics_edit.setText("5")
         self.el_residual_value_edit.setText("5")
@@ -1063,12 +1081,12 @@ class ProjectDesignPage(QWidget):
         layout.addWidget(self.el_power_electronics_edit, 3, 1)
         
         # 单位容量投资成本
-        layout.addWidget(QLabel("单位容量投资成本（万元）"), 4, 0)
+        layout.addWidget(QLabel("单位容量投资成本（元/kW）"), 4, 0)
         self.el_investment_cost_edit = QLineEdit()
         layout.addWidget(self.el_investment_cost_edit, 4, 1)
         
         # 单位容量维护成本
-        layout.addWidget(QLabel("单位容量维护成本（万元）"), 5, 0)
+        layout.addWidget(QLabel("单位容量维护成本（元/kW）"), 5, 0)
         self.el_maintenance_cost_edit = QLineEdit()
         layout.addWidget(self.el_maintenance_cost_edit, 5, 1)
         
