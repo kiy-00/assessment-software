@@ -239,7 +239,7 @@ class MainWindow(QMainWindow):
         if project_path:
             QMessageBox.information(self, "成功", f"项目创建成功！\n项目路径：{project_path}")
             
-            # 重置项目参数设计页面
+            # 重置项目参数设计页面并设置默认值
             if self.project_design_page:
                 self.project_design_page.reset_form()
             
@@ -251,6 +251,23 @@ class MainWindow(QMainWindow):
                     'battery_utilization', 'hydrogen_utilization',
                     'renewable_ratio'
                 ])
+            
+            # 立即保存默认数据
+            self.save_default_data()
+    
+    def save_default_data(self):
+        """保存默认数据"""
+        if self.project_design_page and self.data_manager.current_project_path:
+            project_data = self.project_design_page.get_project_data()
+            
+            # 获取指标数据
+            indicator_data = {'selected_indicators': []}
+            if self.indicator_management_page:
+                indicator_data = self.indicator_management_page.get_indicator_data()
+            
+            # 保存数据
+            if self.data_manager.save_project_data(project_data, indicator_data):
+                self.statusBar().showMessage("默认数据已保存", 2000)
     
     def open_file(self):
         """打开评估文件"""

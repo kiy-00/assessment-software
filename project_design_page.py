@@ -973,14 +973,71 @@ class ProjectDesignPage(QWidget):
         # 设置默认项目名称
         self.project_name_edit.setText("新项目_" + str(hash(self))[-6:])
         
-        # 设置默认选中项
+        # 设置系统拓扑设计下的所有条目默认选中
         self.wind_turbine_checkbox.setChecked(True)
+        self.pv_checkbox.setChecked(True)
         self.fuel_cell_checkbox.setChecked(True)
         self.battery_storage_checkbox.setChecked(True)
         self.external_grid_checkbox.setChecked(True)
         self.external_hydrogen_checkbox.setChecked(True)
+        
+        # 设置消费侧设计下的所有条目默认选中
+        self.oxygen_sell_checkbox.setChecked(True)
         self.ammonia_checkbox.setChecked(True)
+        self.methanol_checkbox.setChecked(True)
+        self.oil_processing_checkbox.setChecked(True)
+        self.fuel_cell_vehicle_checkbox.setChecked(True)
+        self.steel_making_checkbox.setChecked(True)
+        self.other_hydrogen_checkbox.setChecked(True)
         self.internal_power_checkbox.setChecked(True)
+        
+        # 设置财税与融资参数默认值
+        self.vat_rate_edit.setText("13")
+        self.income_tax_rate_edit.setText("25")
+        self.vat_additional_rate_edit.setText("3.14")
+        self.loan_rate_edit.setText("4.9")
+        
+        # 设置财务分析参数默认值
+        self.nominal_discount_rate_edit.setText("8")
+        self.inflation_rate_checkbox.setChecked(True)
+        self.inflation_rate_edit.setText("2")
+        
+        # 设置价格参数默认值
+        self.oxygen_price_edit.setText(",".join(["0.5"] * 24))
+        self.electricity_sell_price_edit.setText(",".join(["0.3"] * 24))
+        # 电能的购买价格不设置默认值，保持为空
+        self.electricity_buy_price_edit.setText("")
+        self.hydrogen_price_edit.setText(",".join(["33.4"] * 24))
+        
+        # 设置WT默认值
+        self.wt_power_electronics_checkbox.setChecked(True)
+        self.wt_power_electronics_edit.setText("5")
+        self.wt_residual_value_edit.setText("5")
+        
+        # 设置PV默认值
+        self.pv_power_electronics_checkbox.setChecked(True)
+        self.pv_power_electronics_edit.setText("5")
+        self.pv_residual_value_edit.setText("5")
+        
+        # 设置EL默认值
+        self.el_efficiency_edit.setText("39.4")
+        self.el_power_electronics_checkbox.setChecked(True)
+        self.el_power_electronics_edit.setText("5")
+        self.el_residual_value_edit.setText("5")
+        
+        # 设置HES默认值
+        self.hes_residual_value_edit.setText("5")
+        
+        # 设置HFC默认值
+        self.hfc_power_electronics_checkbox.setChecked(True)
+        self.hfc_power_electronics_edit.setText("5")
+        self.hfc_residual_value_edit.setText("5")
+        
+        # 设置ESS默认值
+        self.ess_efficiency_edit.setText("90")
+        self.ess_power_electronics_checkbox.setChecked(True)
+        self.ess_power_electronics_edit.setText("5")
+        self.ess_residual_value_edit.setText("5")
 
     def create_el_parameters(self, parent_layout):
         """创建电解槽参数组"""
@@ -997,14 +1054,12 @@ class ProjectDesignPage(QWidget):
         # 能量转化系数
         layout.addWidget(QLabel("能量转化系数（%）"), 2, 0)
         self.el_efficiency_edit = QLineEdit()
-        self.el_efficiency_edit.setText("39.4")  # 设置默认值
         layout.addWidget(self.el_efficiency_edit, 2, 1)
         
         # 电力电子接口装置成本
         self.el_power_electronics_checkbox = QCheckBox("电力电子接口装置成本设备成本的比例（%）")
         layout.addWidget(self.el_power_electronics_checkbox, 3, 0)
         self.el_power_electronics_edit = QLineEdit()
-        self.el_power_electronics_edit.setText("5")  # 设置默认值
         layout.addWidget(self.el_power_electronics_edit, 3, 1)
         
         # 单位容量投资成本
