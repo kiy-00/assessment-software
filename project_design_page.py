@@ -95,7 +95,7 @@ class ProjectDesignPage(QWidget):
 
         # 评估方案数
         layout.addWidget(QLabel("评估方案数（个）"), 2, 0)
-        self.project_scheme_edit = QLineEdit()  # 修正：使用不同的变量名
+        self.project_scheme_edit = QLineEdit()
         layout.addWidget(self.project_scheme_edit, 2, 1)
         
         parent_layout.addWidget(group)
@@ -162,7 +162,7 @@ class ProjectDesignPage(QWidget):
         
         # 添加说明文字
         note_label = QLabel("※在输入框中输入价格的24h分时数据，使用半角逗号\",\"隔开")
-        note_label.setStyleSheet("QLabel { color: #666; font-size: 20px; }")
+        note_label.setStyleSheet("QLabel { color: #666; font-size: 9pt; }")  # 使用pt单位
         layout.addWidget(note_label)
         
         grid_layout = QGridLayout()
@@ -373,7 +373,7 @@ class ProjectDesignPage(QWidget):
         
         # 说明文字和总装机
         note_label = QLabel("※在输入框中输入各方案WT容量，使用半角逗号\",\"隔开")
-        note_label.setStyleSheet("QLabel { color: #666; font-size: 20px; }")
+        note_label.setStyleSheet("QLabel { color: #666; font-size: 9pt; }")
         layout.addWidget(note_label, 6, 0, 1, 2)
         
         layout.addWidget(QLabel("风力发电总装机（kW）"), 7, 0)
@@ -423,7 +423,7 @@ class ProjectDesignPage(QWidget):
         
         # 说明文字和总装机
         note_label = QLabel("※在输入框中输入各方案PV容量，使用半角逗号\",\"隔开")
-        note_label.setStyleSheet("QLabel { color: #666; font-size: 20px; }")
+        note_label.setStyleSheet("QLabel { color: #666; font-size: 9pt; }")
         layout.addWidget(note_label, 6, 0, 1, 2)
         
         layout.addWidget(QLabel("光伏机组总装机（kW）"), 7, 0)
@@ -472,7 +472,7 @@ class ProjectDesignPage(QWidget):
         
         # 说明文字和总容量
         note_label = QLabel("※在输入框中输入各方案ESS容量，使用半角逗号\",\"隔开")
-        note_label.setStyleSheet("QLabel { color: #666; font-size: 20px; }")
+        note_label.setStyleSheet("QLabel { color: #666; font-size: 9pt; }")
         layout.addWidget(note_label, 6, 0, 1, 2)
         
         layout.addWidget(QLabel("蓄电池配置容量（kW）"), 7, 0)
@@ -515,7 +515,7 @@ class ProjectDesignPage(QWidget):
         
         # 说明文字和配置容量
         note_label = QLabel("※在输入框中输入各方案HES容量，使用半角逗号\",\"隔开")
-        note_label.setStyleSheet("QLabel { color: #666; font-size: 20px; }")
+        note_label.setStyleSheet("QLabel { color: #666; font-size: 9pt; }")
         layout.addWidget(note_label, 6, 0, 1, 2)
         
         layout.addWidget(QLabel("氢储能装置配置容量（kW）"), 7, 0)
@@ -558,7 +558,7 @@ class ProjectDesignPage(QWidget):
         
         # 说明文字和配置容量
         note_label = QLabel("※在输入框中输入各方案HFC容量，使用半角逗号\",\"隔开")
-        note_label.setStyleSheet("QLabel { color: #666; font-size: 20px; }")
+        note_label.setStyleSheet("QLabel { color: #666; font-size: 9pt; }")
         layout.addWidget(note_label, 5, 0, 1, 2)
         
         layout.addWidget(QLabel("燃料电池配置容量（kW）"), 6, 0)
@@ -657,7 +657,7 @@ class ProjectDesignPage(QWidget):
                 border: none;
                 border-radius: 5px;
                 padding: 8px 16px;
-                font-size: 20px;
+                font-size: 9pt;
                 font-weight: bold;
             }
             QPushButton:hover {
@@ -1017,7 +1017,7 @@ class ProjectDesignPage(QWidget):
         
         # 说明文字和配置容量
         note_label = QLabel("※在输入框中输入各方案EL容量，使用半角逗号\",\"隔开")
-        note_label.setStyleSheet("QLabel { color: #666; font-size: 20px; }")
+        note_label.setStyleSheet("QLabel { color: #666; font-size: 9pt; }")
         layout.addWidget(note_label, 7, 0, 1, 2)
         
         layout.addWidget(QLabel("电解槽配置容量（kW）"), 8, 0)

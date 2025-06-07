@@ -238,7 +238,7 @@ class IndicatorManagementPage(QWidget):
                 border: none;
                 border-radius: 5px;
                 padding: 8px 16px;
-                font-size: 20px;
+                font-size: 9pt;
                 font-weight: bold;
             }
             QPushButton:hover {
@@ -262,7 +262,7 @@ class IndicatorManagementPage(QWidget):
                 border: 1px solid #bdc3c7;
                 border-radius: 3px;
                 padding: 5px 15px;
-                font-size: 20px;
+                font-size: 9pt;
             }
             QPushButton:hover {
                 background-color: #d5dbdb;

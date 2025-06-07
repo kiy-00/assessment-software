@@ -327,8 +327,16 @@ class MainWindow(QMainWindow):
                 self.statusBar().showMessage("指标数据保存失败", 2000)
 
 def main():
+    # 设置DPI感知，解决不同缩放比例下字体大小不一致的问题
+    QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
+    QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
+    
     app = QApplication(sys.argv)
     app.setStyle('Fusion')  # 设置现代化风格
+    
+    # 设置全局字体
+    font = QFont("微软雅黑", 9)  # 统一字体大小
+    app.setFont(font)
     
     window = MainWindow()
     window.show()
