@@ -90,12 +90,14 @@ class MainWindow(QMainWindow):
         
         if 'new_project' in self.icons and not self.icons['new_project'].isNull():
             new_eval_icon = QLabel()
-            new_eval_icon.setPixmap(self.icons['new_project'].pixmap(32, 32))  # 设置为32x32像素
+            new_eval_icon.setPixmap(self.icons['new_project'].pixmap(32, 32))
             new_eval_icon.setAlignment(Qt.AlignCenter)
+            new_eval_icon.setStyleSheet("QLabel { border: none; background: transparent; }")  # 去掉边框
             new_eval_layout.addWidget(new_eval_icon)
         
         self.btn_new_evaluation = QPushButton("新建评估")
         self.btn_new_evaluation.setMinimumSize(80, 30)
+        self.btn_new_evaluation.setFlat(True)  # 设置为平面按钮
         self.btn_new_evaluation.clicked.connect(self.new_evaluation)
         new_eval_layout.addWidget(self.btn_new_evaluation)
         
@@ -108,10 +110,12 @@ class MainWindow(QMainWindow):
             open_file_icon = QLabel()
             open_file_icon.setPixmap(self.icons['open_project'].pixmap(32, 32))
             open_file_icon.setAlignment(Qt.AlignCenter)
+            open_file_icon.setStyleSheet("QLabel { border: none; background: transparent; }")  # 去掉边框
             open_file_layout.addWidget(open_file_icon)
         
         self.btn_open_file = QPushButton("打开评估文件")
         self.btn_open_file.setMinimumSize(100, 30)
+        self.btn_open_file.setFlat(True)  # 设置为平面按钮
         self.btn_open_file.clicked.connect(self.open_file)
         open_file_layout.addWidget(self.btn_open_file)
         
@@ -124,10 +128,12 @@ class MainWindow(QMainWindow):
             help_icon = QLabel()
             help_icon.setPixmap(self.icons['help'].pixmap(32, 32))
             help_icon.setAlignment(Qt.AlignCenter)
+            help_icon.setStyleSheet("QLabel { border: none; background: transparent; }")  # 去掉边框
             help_layout.addWidget(help_icon)
         
         self.btn_help = QPushButton("查看帮助文档")
         self.btn_help.setMinimumSize(100, 30)
+        self.btn_help.setFlat(True)  # 设置为平面按钮
         self.btn_help.clicked.connect(self.show_help)
         help_layout.addWidget(self.btn_help)
         
@@ -166,7 +172,7 @@ class MainWindow(QMainWindow):
         # 导航标题
         nav_title = QLabel("功能导航")
         nav_title.setAlignment(Qt.AlignCenter)
-        nav_title.setStyleSheet("QLabel { font-weight: bold; font-size: 16px; color: #333; }")
+        nav_title.setStyleSheet("QLabel { font-weight: bold; font-size: 16px; color: #333; border: none; }")
         nav_layout.addWidget(nav_title)
         
         # 项目参数设计按钮组合
@@ -177,6 +183,7 @@ class MainWindow(QMainWindow):
             project_design_icon = QLabel()
             project_design_icon.setPixmap(self.icons['project_design'].pixmap(32, 32))
             project_design_icon.setAlignment(Qt.AlignCenter)
+            project_design_icon.setStyleSheet("QLabel { border: none; background: transparent; }")  # 去掉边框
             project_design_layout.addWidget(project_design_icon)
         
         self.btn_project_design = QPushButton("项目参数设计")
@@ -192,6 +199,7 @@ class MainWindow(QMainWindow):
             indicator_mgmt_icon = QLabel()
             indicator_mgmt_icon.setPixmap(self.icons['indicator_management'].pixmap(32, 32))
             indicator_mgmt_icon.setAlignment(Qt.AlignCenter)
+            indicator_mgmt_icon.setStyleSheet("QLabel { border: none; background: transparent; }")  # 去掉边框
             indicator_mgmt_layout.addWidget(indicator_mgmt_icon)
         
         self.btn_indicator_management = QPushButton("指标管理")
@@ -207,6 +215,7 @@ class MainWindow(QMainWindow):
             evaluation_icon = QLabel()
             evaluation_icon.setPixmap(self.icons['evaluation'].pixmap(32, 32))
             evaluation_icon.setAlignment(Qt.AlignCenter)
+            evaluation_icon.setStyleSheet("QLabel { border: none; background: transparent; }")  # 去掉边框
             evaluation_layout.addWidget(evaluation_icon)
         
         self.btn_comprehensive_evaluation = QPushButton("综合评估")
@@ -277,7 +286,7 @@ class MainWindow(QMainWindow):
     
     def set_styles(self):
         """设置样式"""
-        # 设置顶部按钮样式
+        # 设置顶部按钮样式 - 为平面按钮设计
         top_button_style = """
         QPushButton {
             background-color: #3498db;
@@ -293,6 +302,9 @@ class MainWindow(QMainWindow):
         }
         QPushButton:pressed {
             background-color: #21618c;
+        }
+        QPushButton:flat {
+            border: none;
         }
         """
         

@@ -69,6 +69,7 @@ class ComprehensiveEvaluationPage(QWidget):
             eval_icon = QLabel()
             eval_icon.setPixmap(self.icons['evaluation'].pixmap(24, 24))
             eval_icon.setAlignment(Qt.AlignCenter)
+            eval_icon.setStyleSheet("QLabel { border: none; background: transparent; }")  # 去掉边框和背景
             eval_layout.addWidget(eval_icon)
             print("综合评估页面 - 已设置按钮图标")  # 调试信息
         else:

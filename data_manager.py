@@ -72,7 +72,7 @@ class DataManager:
     def create_excel_files(self, project_path):
         """创建Excel文件"""
         excel_files = [
-            "ESS-电储能装置充放功率(kW).xlsx",
+            "ESS-电储能装置充放功率(kW·h).xlsx",
             "HES-氢储能装置加氢放氢(kg).xlsx",
             "PV-光伏机组出力(kW).xlsx",
             "WT-风力发电单元出力(kW).xlsx",

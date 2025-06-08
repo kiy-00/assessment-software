@@ -703,6 +703,7 @@ class ProjectDesignPage(QWidget):
             update_icon = QLabel()
             update_icon.setPixmap(self.icons['project_design'].pixmap(24, 24))
             update_icon.setAlignment(Qt.AlignCenter)
+            update_icon.setStyleSheet("QLabel { border: none; background: transparent; }")  # 去掉边框和背景
             update_layout.addWidget(update_icon)
             print("项目设计页面 - 已设置按钮图标")  # 调试信息
         else:
