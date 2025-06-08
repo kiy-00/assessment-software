@@ -13,12 +13,43 @@ class MainWindow(QMainWindow):
         self.data_manager = DataManager()
         self.project_design_page = None
         self.indicator_management_page = None
+        self.load_icons()  # 添加图标加载
         self.init_ui()
     
+    def load_icons(self):
+        """加载图标资源"""
+        self.icons = {}
+        icons_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "icons")
+        
+        print(f"图标目录路径: {icons_dir}")  # 调试信息
+        
+        icon_files = {
+            'new_project': '新建评估.svg',
+            'open_project': '打开评估文件.svg',
+            'project_design': '项目参数设计.svg',
+            'indicator_management': '指标管理.svg',
+            'evaluation': '综合评估.svg',
+            'help': '查看帮助文档.svg'
+        }
+        
+        for key, filename in icon_files.items():
+            icon_path = os.path.join(icons_dir, filename)
+            print(f"尝试加载图标: {icon_path}")  # 调试信息
+            if os.path.exists(icon_path):
+                self.icons[key] = QIcon(icon_path)
+                print(f"成功加载图标: {key}")  # 调试信息
+            else:
+                self.icons[key] = QIcon()  # 空图标
+                print(f"图标文件不存在: {icon_path}")  # 调试信息
+
     def init_ui(self):
         # 设置窗口基本属性
         self.setWindowTitle("可再生能源-氢能耦合项目技术经济性综合评估软件v1")
         self.setGeometry(100, 100, 1000, 700)
+        
+        # 设置窗口图标
+        if 'evaluation' in self.icons and not self.icons['evaluation'].isNull():
+            self.setWindowIcon(self.icons['evaluation'])
         
         # 创建中央部件
         central_widget = QWidget()
@@ -54,16 +85,22 @@ class MainWindow(QMainWindow):
         
         # 新建评估按钮
         self.btn_new_evaluation = QPushButton("新建评估")
+        if 'new_project' in self.icons and not self.icons['new_project'].isNull():
+            self.btn_new_evaluation.setIcon(self.icons['new_project'])
         self.btn_new_evaluation.setMinimumSize(100, 50)
         self.btn_new_evaluation.clicked.connect(self.new_evaluation)
         
         # 打开评估文件按钮
         self.btn_open_file = QPushButton("打开评估文件")
+        if 'open_project' in self.icons and not self.icons['open_project'].isNull():
+            self.btn_open_file.setIcon(self.icons['open_project'])
         self.btn_open_file.setMinimumSize(100, 50)
         self.btn_open_file.clicked.connect(self.open_file)
         
         # 查看帮助文档按钮
         self.btn_help = QPushButton("查看帮助文档")
+        if 'help' in self.icons and not self.icons['help'].isNull():
+            self.btn_help.setIcon(self.icons['help'])
         self.btn_help.setMinimumSize(100, 50)
         self.btn_help.clicked.connect(self.show_help)
         
@@ -107,14 +144,20 @@ class MainWindow(QMainWindow):
         
         # 导航按钮
         self.btn_project_design = QPushButton("项目参数设计")
+        if 'project_design' in self.icons and not self.icons['project_design'].isNull():
+            self.btn_project_design.setIcon(self.icons['project_design'])
         self.btn_project_design.setMinimumHeight(40)
         self.btn_project_design.clicked.connect(lambda: self.switch_content(0))
         
         self.btn_indicator_management = QPushButton("指标管理")
+        if 'indicator_management' in self.icons and not self.icons['indicator_management'].isNull():
+            self.btn_indicator_management.setIcon(self.icons['indicator_management'])
         self.btn_indicator_management.setMinimumHeight(40)
         self.btn_indicator_management.clicked.connect(lambda: self.switch_content(1))
         
         self.btn_comprehensive_evaluation = QPushButton("综合评估")
+        if 'evaluation' in self.icons and not self.icons['evaluation'].isNull():
+            self.btn_comprehensive_evaluation.setIcon(self.icons['evaluation'])
         self.btn_comprehensive_evaluation.setMinimumHeight(40)
         self.btn_comprehensive_evaluation.clicked.connect(lambda: self.switch_content(2))
         

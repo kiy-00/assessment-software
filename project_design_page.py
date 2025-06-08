@@ -1,10 +1,11 @@
 import sys
+import os
 from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QGridLayout, 
                              QLabel, QLineEdit, QGroupBox, QCheckBox, QPushButton,
                              QScrollArea, QFrame, QComboBox, QSpinBox, QDoubleSpinBox,
                              QTextEdit, QSplitter)
 from PyQt5.QtCore import Qt, pyqtSignal
-from PyQt5.QtGui import QFont
+from PyQt5.QtGui import QFont, QIcon
 
 class ProjectDesignPage(QWidget):
     """项目参数设计页面"""
@@ -13,9 +14,31 @@ class ProjectDesignPage(QWidget):
     
     def __init__(self):
         super().__init__()
+        self.load_icons()
         self.init_ui()
         self.setup_connections()
     
+    def load_icons(self):
+        """加载图标资源"""
+        self.icons = {}
+        icons_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "icons")
+        
+        print(f"项目设计页面 - 图标目录路径: {icons_dir}")  # 调试信息
+        
+        icon_files = {
+            'project_design': '项目参数设计.svg'
+        }
+        
+        for key, filename in icon_files.items():
+            icon_path = os.path.join(icons_dir, filename)
+            print(f"项目设计页面 - 尝试加载图标: {icon_path}")  # 调试信息
+            if os.path.exists(icon_path):
+                self.icons[key] = QIcon(icon_path)
+                print(f"项目设计页面 - 成功加载图标: {key}")  # 调试信息
+            else:
+                self.icons[key] = QIcon()
+                print(f"项目设计页面 - 图标文件不存在: {icon_path}")  # 调试信息
+
     def init_ui(self):
         """初始化用户界面"""
         main_layout = QVBoxLayout(self)
@@ -673,6 +696,12 @@ class ProjectDesignPage(QWidget):
         
         # 更新数据按钮
         self.update_data_btn = QPushButton("更新数据")
+        if 'project_design' in self.icons and not self.icons['project_design'].isNull():
+            self.update_data_btn.setIcon(self.icons['project_design'])
+            print("项目设计页面 - 已设置按钮图标")  # 调试信息
+        else:
+            print("项目设计页面 - 图标为空，未设置按钮图标")  # 调试信息
+        
         self.update_data_btn.setMinimumSize(100, 35)
         self.update_data_btn.setStyleSheet("""
             QPushButton {
