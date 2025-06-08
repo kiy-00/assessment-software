@@ -694,14 +694,22 @@ class ProjectDesignPage(QWidget):
         button_layout = QHBoxLayout()
         button_layout.addStretch()
         
-        # 更新数据按钮
-        self.update_data_btn = QPushButton("更新数据")
+        # 更新数据按钮组合
+        update_layout = QHBoxLayout()
+        update_layout.setSpacing(8)
+        
+        # 添加图标
         if 'project_design' in self.icons and not self.icons['project_design'].isNull():
-            self.update_data_btn.setIcon(self.icons['project_design'])
+            update_icon = QLabel()
+            update_icon.setPixmap(self.icons['project_design'].pixmap(24, 24))
+            update_icon.setAlignment(Qt.AlignCenter)
+            update_layout.addWidget(update_icon)
             print("项目设计页面 - 已设置按钮图标")  # 调试信息
         else:
             print("项目设计页面 - 图标为空，未设置按钮图标")  # 调试信息
         
+        # 更新数据按钮
+        self.update_data_btn = QPushButton("更新数据")
         self.update_data_btn.setMinimumSize(100, 35)
         self.update_data_btn.setStyleSheet("""
             QPushButton {
@@ -721,8 +729,9 @@ class ProjectDesignPage(QWidget):
             }
         """)
         self.update_data_btn.clicked.connect(self.update_data)
+        update_layout.addWidget(self.update_data_btn)
         
-        button_layout.addWidget(self.update_data_btn)
+        button_layout.addLayout(update_layout)
         parent_layout.addLayout(button_layout)
     
     def setup_connections(self):

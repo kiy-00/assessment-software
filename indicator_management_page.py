@@ -252,13 +252,21 @@ class IndicatorManagementPage(QWidget):
         button_layout = QHBoxLayout()
         button_layout.addStretch()
         
-        self.update_btn = QPushButton("更新数据")
+        # 更新数据按钮组合
+        update_layout = QHBoxLayout()
+        update_layout.setSpacing(8)
+        
+        # 添加图标
         if 'indicator_management' in self.icons and not self.icons['indicator_management'].isNull():
-            self.update_btn.setIcon(self.icons['indicator_management'])
+            update_icon = QLabel()
+            update_icon.setPixmap(self.icons['indicator_management'].pixmap(24, 24))
+            update_icon.setAlignment(Qt.AlignCenter)
+            update_layout.addWidget(update_icon)
             print("指标管理页面 - 已设置按钮图标")  # 调试信息
         else:
             print("指标管理页面 - 图标为空，未设置按钮图标")  # 调试信息
         
+        self.update_btn = QPushButton("更新数据")
         self.update_btn.setMinimumSize(120, 35)
         self.update_btn.setStyleSheet("""
             QPushButton {
@@ -278,8 +286,9 @@ class IndicatorManagementPage(QWidget):
             }
         """)
         self.update_btn.clicked.connect(self.update_data)
+        update_layout.addWidget(self.update_btn)
         
-        button_layout.addWidget(self.update_btn)
+        button_layout.addLayout(update_layout)
         parent_layout.addLayout(button_layout)
     
     def get_detail_button_style(self):

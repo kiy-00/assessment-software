@@ -77,37 +77,64 @@ class MainWindow(QMainWindow):
         toolbar_frame = QFrame()
         toolbar_frame.setFrameStyle(QFrame.Box)
         toolbar_frame.setStyleSheet("QFrame { border: 1px solid #ddd; background-color: #f5f5f5; }")
-        toolbar_frame.setMaximumHeight(80)
+        toolbar_frame.setMaximumHeight(100)  # 增加高度以容纳更大的图标
         
         toolbar_layout = QHBoxLayout(toolbar_frame)
-        toolbar_layout.setSpacing(20)
+        toolbar_layout.setSpacing(30)
         toolbar_layout.setContentsMargins(20, 15, 20, 15)
         
-        # 新建评估按钮
-        self.btn_new_evaluation = QPushButton("新建评估")
+        # 新建评估按钮组合
+        new_eval_layout = QVBoxLayout()
+        new_eval_layout.setAlignment(Qt.AlignCenter)
+        new_eval_layout.setSpacing(5)
+        
         if 'new_project' in self.icons and not self.icons['new_project'].isNull():
-            self.btn_new_evaluation.setIcon(self.icons['new_project'])
-        self.btn_new_evaluation.setMinimumSize(100, 50)
+            new_eval_icon = QLabel()
+            new_eval_icon.setPixmap(self.icons['new_project'].pixmap(32, 32))  # 设置为32x32像素
+            new_eval_icon.setAlignment(Qt.AlignCenter)
+            new_eval_layout.addWidget(new_eval_icon)
+        
+        self.btn_new_evaluation = QPushButton("新建评估")
+        self.btn_new_evaluation.setMinimumSize(80, 30)
         self.btn_new_evaluation.clicked.connect(self.new_evaluation)
+        new_eval_layout.addWidget(self.btn_new_evaluation)
         
-        # 打开评估文件按钮
-        self.btn_open_file = QPushButton("打开评估文件")
+        # 打开评估文件按钮组合
+        open_file_layout = QVBoxLayout()
+        open_file_layout.setAlignment(Qt.AlignCenter)
+        open_file_layout.setSpacing(5)
+        
         if 'open_project' in self.icons and not self.icons['open_project'].isNull():
-            self.btn_open_file.setIcon(self.icons['open_project'])
-        self.btn_open_file.setMinimumSize(100, 50)
+            open_file_icon = QLabel()
+            open_file_icon.setPixmap(self.icons['open_project'].pixmap(32, 32))
+            open_file_icon.setAlignment(Qt.AlignCenter)
+            open_file_layout.addWidget(open_file_icon)
+        
+        self.btn_open_file = QPushButton("打开评估文件")
+        self.btn_open_file.setMinimumSize(100, 30)
         self.btn_open_file.clicked.connect(self.open_file)
+        open_file_layout.addWidget(self.btn_open_file)
         
-        # 查看帮助文档按钮
-        self.btn_help = QPushButton("查看帮助文档")
+        # 查看帮助文档按钮组合
+        help_layout = QVBoxLayout()
+        help_layout.setAlignment(Qt.AlignCenter)
+        help_layout.setSpacing(5)
+        
         if 'help' in self.icons and not self.icons['help'].isNull():
-            self.btn_help.setIcon(self.icons['help'])
-        self.btn_help.setMinimumSize(100, 50)
-        self.btn_help.clicked.connect(self.show_help)
+            help_icon = QLabel()
+            help_icon.setPixmap(self.icons['help'].pixmap(32, 32))
+            help_icon.setAlignment(Qt.AlignCenter)
+            help_layout.addWidget(help_icon)
         
-        # 添加按钮到布局
-        toolbar_layout.addWidget(self.btn_new_evaluation)
-        toolbar_layout.addWidget(self.btn_open_file)
-        toolbar_layout.addWidget(self.btn_help)
+        self.btn_help = QPushButton("查看帮助文档")
+        self.btn_help.setMinimumSize(100, 30)
+        self.btn_help.clicked.connect(self.show_help)
+        help_layout.addWidget(self.btn_help)
+        
+        # 添加按钮组合到布局
+        toolbar_layout.addLayout(new_eval_layout)
+        toolbar_layout.addLayout(open_file_layout)
+        toolbar_layout.addLayout(help_layout)
         toolbar_layout.addStretch()  # 添加弹性空间
         
         parent_layout.addWidget(toolbar_frame)
@@ -130,41 +157,67 @@ class MainWindow(QMainWindow):
         nav_frame = QFrame()
         nav_frame.setFrameStyle(QFrame.Box)
         nav_frame.setStyleSheet("QFrame { border: 1px solid #ddd; background-color: #f9f9f9; }")
-        nav_frame.setFixedWidth(200)
+        nav_frame.setFixedWidth(220)  # 增加宽度以容纳图标
         
         nav_layout = QVBoxLayout(nav_frame)
         nav_layout.setContentsMargins(10, 20, 10, 20)
-        nav_layout.setSpacing(15)
+        nav_layout.setSpacing(20)
         
         # 导航标题
         nav_title = QLabel("功能导航")
         nav_title.setAlignment(Qt.AlignCenter)
-        nav_title.setStyleSheet("QLabel { font-weight: bold; font-size: 20px; color: #333; }")
+        nav_title.setStyleSheet("QLabel { font-weight: bold; font-size: 16px; color: #333; }")
         nav_layout.addWidget(nav_title)
         
-        # 导航按钮
-        self.btn_project_design = QPushButton("项目参数设计")
+        # 项目参数设计按钮组合
+        project_design_layout = QHBoxLayout()
+        project_design_layout.setSpacing(10)
+        
         if 'project_design' in self.icons and not self.icons['project_design'].isNull():
-            self.btn_project_design.setIcon(self.icons['project_design'])
+            project_design_icon = QLabel()
+            project_design_icon.setPixmap(self.icons['project_design'].pixmap(32, 32))
+            project_design_icon.setAlignment(Qt.AlignCenter)
+            project_design_layout.addWidget(project_design_icon)
+        
+        self.btn_project_design = QPushButton("项目参数设计")
         self.btn_project_design.setMinimumHeight(40)
         self.btn_project_design.clicked.connect(lambda: self.switch_content(0))
+        project_design_layout.addWidget(self.btn_project_design)
+        
+        # 指标管理按钮组合
+        indicator_mgmt_layout = QHBoxLayout()
+        indicator_mgmt_layout.setSpacing(10)
+        
+        if 'indicator_management' in self.icons and not self.icons['indicator_management'].isNull():
+            indicator_mgmt_icon = QLabel()
+            indicator_mgmt_icon.setPixmap(self.icons['indicator_management'].pixmap(32, 32))
+            indicator_mgmt_icon.setAlignment(Qt.AlignCenter)
+            indicator_mgmt_layout.addWidget(indicator_mgmt_icon)
         
         self.btn_indicator_management = QPushButton("指标管理")
-        if 'indicator_management' in self.icons and not self.icons['indicator_management'].isNull():
-            self.btn_indicator_management.setIcon(self.icons['indicator_management'])
         self.btn_indicator_management.setMinimumHeight(40)
         self.btn_indicator_management.clicked.connect(lambda: self.switch_content(1))
+        indicator_mgmt_layout.addWidget(self.btn_indicator_management)
+        
+        # 综合评估按钮组合
+        evaluation_layout = QHBoxLayout()
+        evaluation_layout.setSpacing(10)
+        
+        if 'evaluation' in self.icons and not self.icons['evaluation'].isNull():
+            evaluation_icon = QLabel()
+            evaluation_icon.setPixmap(self.icons['evaluation'].pixmap(32, 32))
+            evaluation_icon.setAlignment(Qt.AlignCenter)
+            evaluation_layout.addWidget(evaluation_icon)
         
         self.btn_comprehensive_evaluation = QPushButton("综合评估")
-        if 'evaluation' in self.icons and not self.icons['evaluation'].isNull():
-            self.btn_comprehensive_evaluation.setIcon(self.icons['evaluation'])
         self.btn_comprehensive_evaluation.setMinimumHeight(40)
         self.btn_comprehensive_evaluation.clicked.connect(lambda: self.switch_content(2))
+        evaluation_layout.addWidget(self.btn_comprehensive_evaluation)
         
-        # 添加导航按钮
-        nav_layout.addWidget(self.btn_project_design)
-        nav_layout.addWidget(self.btn_indicator_management)
-        nav_layout.addWidget(self.btn_comprehensive_evaluation)
+        # 添加导航按钮组合
+        nav_layout.addLayout(project_design_layout)
+        nav_layout.addLayout(indicator_mgmt_layout)
+        nav_layout.addLayout(evaluation_layout)
         nav_layout.addStretch()  # 添加弹性空间
         
         parent_layout.addWidget(nav_frame)
@@ -224,15 +277,15 @@ class MainWindow(QMainWindow):
     
     def set_styles(self):
         """设置样式"""
-        # 设置按钮样式
-        button_style = """
+        # 设置顶部按钮样式
+        top_button_style = """
         QPushButton {
             background-color: #3498db;
             color: white;
             border: none;
             border-radius: 5px;
-            padding: 8px 16px;
-            font-size: 20px;
+            padding: 8px 12px;
+            font-size: 12px;
             font-weight: bold;
         }
         QPushButton:hover {
@@ -244,9 +297,9 @@ class MainWindow(QMainWindow):
         """
         
         # 应用样式到顶部按钮
-        self.btn_new_evaluation.setStyleSheet(button_style)
-        self.btn_open_file.setStyleSheet(button_style)
-        self.btn_help.setStyleSheet(button_style)
+        self.btn_new_evaluation.setStyleSheet(top_button_style)
+        self.btn_open_file.setStyleSheet(top_button_style)
+        self.btn_help.setStyleSheet(top_button_style)
         
         # 导航按钮样式
         nav_button_style = """
@@ -256,7 +309,7 @@ class MainWindow(QMainWindow):
             border: 1px solid #bdc3c7;
             border-radius: 5px;
             padding: 10px;
-            font-size: 20px;
+            font-size: 12px;
             text-align: left;
         }
         QPushButton:hover {
